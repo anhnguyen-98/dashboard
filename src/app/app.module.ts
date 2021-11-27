@@ -8,6 +8,7 @@ import { SimpleCardComponent } from './components/simple-card/simple-card.compon
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatCardModule } from '@angular/material/card'
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
     AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
