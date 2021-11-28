@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class SensorDataService {
 
-  private apiUrl = 'http://webdashboardapi.herokuapp.com/sensor';
+  private apiUrl = 'https://webdashboardapi.herokuapp.com/sensor';
 
   constructor(private http: HttpClient) { }
 
