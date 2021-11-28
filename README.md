@@ -1,6 +1,6 @@
 # WebDashboard
 
-This project is for `Informatik Projekt` 
+This project is for `Informatik Projekt` in Frankfurt University Of Applied Sciences.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.12.
 
 ## Development server
