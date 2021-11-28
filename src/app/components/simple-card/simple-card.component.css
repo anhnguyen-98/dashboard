@@ -1,3 +1,9 @@
 mat-card {
-    width: 400px;
+    width: 200px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.value {
+    font-size: 25px;
 }

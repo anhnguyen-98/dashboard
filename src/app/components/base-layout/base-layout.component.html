@@ -1,4 +1,8 @@
 <mat-toolbar>
     <span>IT Project Web Dashboard</span>
 </mat-toolbar>
-<app-simple-card></app-simple-card>
+<div class="card-container">
+    <ng-container *ngFor="let sensor of sensorData">
+        <app-simple-card [sensorData]="sensor"></app-simple-card>
+    </ng-container>
+</div>

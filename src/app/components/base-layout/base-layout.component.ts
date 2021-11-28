@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SensorData } from 'src/app/models/sensor-data.models';
+import { SensorDataService } from 'src/app/services/sensor-data.service';
 
 @Component({
   selector: 'app-base-layout',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BaseLayoutComponent implements OnInit {
 
-  constructor() { }
+  sensorData?: SensorData[];
+
+  constructor(private sensorDataService: SensorDataService) { }
 
   ngOnInit(): void {
+    this.sensorDataService.getData().subscribe(data => this.sensorData = data)
   }
 
 }
