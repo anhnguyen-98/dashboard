@@ -13,19 +13,13 @@ export class SensorDataService {
 
   constructor(private http: HttpClient) { }
 
-  
-
   getData(): Observable<SensorData[]> {
     return this.http.get<SensorData[]>(this.apiUrl).pipe(
       map((sensorData) => {
-        console.log(sensorData);
-        
         let array: SensorData[] = [];
         for (const item of sensorData) {
           array.push(item)
         }
-        console.log(array);
-        
         return array;
       })
     )
