@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SensorData } from '../models/sensor-data.models';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { baseUrl } from '../config/config'
 
 @Injectable({
   providedIn: 'root'
 })
 export class SensorDataService {
 
-  private apiUrl = 'https://webdashboardapi.herokuapp.com/sensor';
-
   constructor(private http: HttpClient) { }
 
   getData(): Observable<SensorData[]> {
-    return this.http.get<SensorData[]>(this.apiUrl).pipe(
+    return this.http.get<SensorData[]>(baseUrl + '/sensor').pipe(
       map((sensorData) => {
         let array: SensorData[] = [];
         for (const item of sensorData) {
