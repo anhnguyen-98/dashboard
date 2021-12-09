@@ -10,12 +10,14 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatCardModule } from '@angular/material/card'
 import { HttpClientModule } from '@angular/common/http';
+import { GraphComponent } from './components/graph/graph.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BaseLayoutComponent,
-    SimpleCardComponent
+    SimpleCardComponent,
+    GraphComponent
   ],
   imports: [
     BrowserModule,
