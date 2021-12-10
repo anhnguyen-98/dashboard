@@ -1,9 +1,36 @@
-mat-card {
-    width: 200px;
+.card-container {
+    width: 282px;
     text-align: center;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
+    /* border: 1px solid; */
+    height: 182px;
+    border: 1px solid #ccccdc12;
+    border-radius: 3px;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    background-color: #181b1f;
+}
+.header {
+    color: white;
+    padding-top: 5px;
+
+}
+.content {
+    flex-grow: 1;
+    display: flex;
+    margin: auto;
+    align-items: center;
+    font-weight: 500;
+    line-height: 1.2;
+    color: rgb(115, 191, 105);
 }
 
 .value {
-    font-size: 25px;
+    font-size: 60px;
+}
+
+.unit {
+    font-size: 30px;
 }

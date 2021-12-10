@@ -1,8 +1,22 @@
 .card-container {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+}
+
+.chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 app-simple-card {
     margin: 10px;
+}
+
+mat-toolbar {
+    height: 45px;
+    color: white;
+    background-color: #181b1f;
 }

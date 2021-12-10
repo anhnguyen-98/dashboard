@@ -29,6 +29,7 @@ export class SensorDataService {
     // return of(sensorDataArray);
   }
 
+  
   // demoData = [
   //   { 
   //     'sensor': 'Temperature', 

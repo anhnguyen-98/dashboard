@@ -1,9 +1,16 @@
 <mat-toolbar>
-    <span>IT Project Web Dashboard</span>
+    <span>Außenklima</span>
 </mat-toolbar>
 <div class="card-container">
     <ng-container *ngFor="let sensor of sensorData">
         <app-simple-card [sensorData]="sensor"></app-simple-card>
     </ng-container>
+    <ng-container *ngFor="let sensor of sensorData">
+        <app-simple-card [sensorData]="sensor"></app-simple-card>
+    </ng-container>
 </div>
-<app-graph></app-graph>
+<div class="chart-container">
+    <app-graph></app-graph>
+</div>
+
+<!-- <app-graph></app-graph> -->
