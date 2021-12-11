@@ -8,11 +8,11 @@ import * as d3 from 'd3';
 })
 export class GraphComponent implements OnInit {
   private data = [
-    {"Framework": "Vue", "Stars": "166443", "Released": "01.01.2022"},
-    {"Framework": "React", "Stars": "150793", "Released": "02.01.2022"},
-    {"Framework": "Angular", "Stars": "62342", "Released": "03.01.2022"},
-    {"Framework": "Backbone", "Stars": "27647", "Released": "04.01.2022"},
-    {"Framework": "Ember", "Stars": "21471", "Released": "05.01.2022"},
+    {"Framework": "Vue", "Stars": "166443", "Released": "2015"},
+    {"Framework": "React", "Stars": "150793", "Released": "2016"},
+    {"Framework": "Angular", "Stars": "62342", "Released": "2017"},
+    {"Framework": "Backbone", "Stars": "27647", "Released": "2018"},
+    {"Framework": "Ember", "Stars": "21471", "Released": "2019"},
   ];
   private svg : any;
   private margin = 40;
