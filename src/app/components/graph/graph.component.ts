@@ -52,22 +52,22 @@ export class GraphComponent implements OnInit {
 
     // Add dots
     const dots = this.svg.append('g');
-    // dots.selectAll("dot")
-    // .data(this.data)
-    // .enter()
-    // .append("circle")
-    // .attr("cx", (d: { Released: d3.NumberValue; }) => x(d.Released))
-    // .attr("cy", (d: { Stars: d3.NumberValue; }) => y(d.Stars))
-    // .attr("r", 7)
-    // .style("opacity", .5)
-    // .style("fill", "#69b3a2");
+    dots.selectAll("dot")
+    .data(this.data)
+    .enter()
+    .append("circle")
+    .attr("cx", (d: { Released: d3.NumberValue; }) => x(d.Released))
+    .attr("cy", (d: { Stars: d3.NumberValue; }) => y(d.Stars))
+    .attr("r", 7)
+    .style("opacity", .5)
+    .style("fill", "#69b3a2");
 
     // Add labels
     dots.selectAll("text")
     .data(this.data)
     .enter()
     .append("text")
-    // .text((d: { Framework: any; }) => d.Framework)
+    .text((d: { Framework: any; }) => d.Framework)
     .attr("x", (d: { Released: d3.NumberValue; }) => x(d.Released))
     .attr("y", (d: { Stars: d3.NumberValue; }) => y(d.Stars))
   }
