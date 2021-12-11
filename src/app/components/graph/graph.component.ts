@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 
+//dddgfgg
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
