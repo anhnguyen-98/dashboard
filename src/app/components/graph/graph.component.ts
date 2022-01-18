@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 
+//dddgfgg
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
@@ -140,6 +141,7 @@ export class GraphComponent implements OnInit {
     // .style("opacity", .5)
     // .style("fill", "#69b3a2");
 
+    // test comment
     // Add labels
     // dots.selectAll("text")
     // .data(this.data)
