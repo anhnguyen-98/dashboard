@@ -1,5 +1,5 @@
 .card-container {
-    width: 282px;
+    width: 256px;
     text-align: center;
     /* margin-bottom: 20px; */
     /* border: 1px solid; */
@@ -15,7 +15,6 @@
 .header {
     color: white;
     padding-top: 5px;
-
 }
 .content {
     flex-grow: 1;
@@ -29,6 +28,7 @@
 
 .value {
     font-size: 60px;
+    margin-right: 3px;
 }
 
 .unit {

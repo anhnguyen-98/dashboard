@@ -1,3 +1,29 @@
 <div class="chart-container">
-    <figure id="scatter"></figure>
+    <div class="chart">
+        <div class="header">
+            <!-- Druck -->
+            Humidity
+        </div>
+        <!-- <mat-slider
+            [max]="max"
+            [min]="min"
+            [step]="step"
+            [thumbLabel]="thumbLabel"
+            [(ngModel)]="value"
+            (input)="onChange($event)">
+        </mat-slider> -->
+        <div class="content">
+            <figure id="scatter1"></figure>
+        </div>
+    </div>
+    <div class="chart">
+        <div class="header">
+            Feinstaub
+        </div>
+        <div class="content">
+            <figure id="scatter2"></figure>
+        </div>
+    </div>
 </div>
+    
+    

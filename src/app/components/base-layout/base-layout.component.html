@@ -1,16 +1,19 @@
-<mat-toolbar>
+<mat-toolbar class="toolbar">
     <span>Außenklima</span>
+    <div class="spacer"></div>
+    <mat-form-field *ngIf="stations">
+        <mat-select [(value)]="selectedLocation" (selectionChange)="onSelectLocation($event)">
+          <mat-option [value]="station.name" *ngFor="let station of stations">{{ station.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
 </mat-toolbar>
-<div class="card-container">
-    <ng-container *ngFor="let sensor of sensorData">
-        <app-simple-card [sensorData]="sensor"></app-simple-card>
-    </ng-container>
-    <ng-container *ngFor="let sensor of sensorData">
-        <app-simple-card [sensorData]="sensor"></app-simple-card>
-    </ng-container>
+<div class="content-container">
+    <div class="card-container">
+        <ng-container *ngFor="let sensor of sensorData">
+            <app-simple-card [sensorData]="sensor"></app-simple-card>
+        </ng-container>
+    </div>
+    <div class="chart-container">
+        <app-graph [pressureData]="humidityData" [pmData]="pmData"></app-graph>
+    </div>
 </div>
-<div class="chart-container">
-    <app-graph></app-graph>
-</div>
-
-<!-- <app-graph></app-graph> -->

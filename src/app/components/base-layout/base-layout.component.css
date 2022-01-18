@@ -1,22 +1,72 @@
+.toolbar {
+    display: flex;
+    padding: 0 0 0 16px;
+}
+.spacer {
+    flex: 1;
+}
+mat-form-field {
+    font-size: 16px;
+    height: 100%;
+    padding: 0 20px;
+    border-left: 1px solid #ccccdc12;
+    border-radius: 3px;
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
+    display: none;
+}
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: rgb(115, 191, 105);
+}
+
+::ng-deep .mat-option {
+    color: white;
+}
+::ng-deep .mat-select-panel {
+    background-color: #181b1f;
+    padding: 0 10px;
+    border: 1px solid #ccccdc12;
+    border-radius: 3px;
+}
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    padding-top: 9px;
+}
+::ng-deep .mat-form-field-infix {
+    border-top: 0;
+}
+
+.content-container {
+    padding: 10px;
+}
+@media (max-width: 1620px) {
+    .content-container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+}
 .card-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-}
-
-.chart-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 10px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 app-simple-card {
-    margin: 10px;
+    margin: 5px;
+    /* flex: 1; */
 }
+/* @media (max-width: 1599px) {
+    app-simple-card {
+        flex: 30%;
+    }
+} */
 
 mat-toolbar {
     height: 45px;
     color: white;
     background-color: #181b1f;
 }
+
