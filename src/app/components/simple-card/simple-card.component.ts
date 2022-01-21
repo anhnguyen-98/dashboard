@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SensorData } from 'src/app/models/sensor-data.models';
+import { AverageData, SensorData } from 'src/app/models/sensor-data.models';
 
 @Component({
   selector: 'app-simple-card',
@@ -9,6 +9,7 @@ import { SensorData } from 'src/app/models/sensor-data.models';
 export class SimpleCardComponent implements OnInit {
 
   @Input() sensorData?: SensorData;
+  @Input() averageData?: AverageData;
   constructor() { }
 
   ngOnInit(): void {

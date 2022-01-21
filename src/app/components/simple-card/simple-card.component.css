@@ -1,9 +1,9 @@
 .card-container {
-    width: 256px;
+    /* min-width: 220px; */
     text-align: center;
     /* margin-bottom: 20px; */
     /* border: 1px solid; */
-    height: 182px;
+    height: 160px;
     border: 1px solid #ccccdc12;
     border-radius: 3px;
     box-shadow: none;
@@ -27,10 +27,29 @@
 }
 
 .value {
-    font-size: 60px;
+    font-size: 55px;
     margin-right: 3px;
 }
 
 .unit {
-    font-size: 30px;
+    font-size: 25px;
+}
+
+@media (min-width: 1140px) and (max-width: 1250px) {
+    .value {
+        font-size: 50px;
+    }
+    
+    .unit {
+        font-size: 20px;
+    }
+}
+@media (min-width: 400px) and (max-width: 700px) {
+    .value {
+        font-size: 45px;
+    }
+    
+    .unit {
+        font-size: 17px;
+    }
 }

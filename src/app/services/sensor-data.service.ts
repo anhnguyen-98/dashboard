@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Humidity, PM, SensorData, Station } from '../models/sensor-data.models';
+import { AverageData, GraphData, Humidity, PM, SensorData, Station } from '../models/sensor-data.models';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { baseUrl } from '../config/config'
@@ -13,43 +13,98 @@ export class SensorDataService {
   // 'http:localhost:3000/api/humidity/0/mean'
   // 'http:localhost:3000/api/humidity/0/mean'
 
+  dataType = 
+  [
+    {
+      'name': 'Temparatur',
+      'slug': 'temparature'
+    },
+    { 
+      'name': 'CO2-Gehalt',
+      'slug': 'co2'
+    }, 
+    { 
+      'name': 'Feuchtigkeit',
+      'slug': 'humidity'
+    }, 
+    // {
+    //   'name': 'Helligkeit',
+    //   'slug': ''
+    // }, 
+    {
+      'name': 'Druck',
+      'slug': 'pressure'
+    }, 
+    // {
+    //   'name': 'Feinstaub',
+    //   'slug': ''
+    // }
+  ]
+
   constructor(private http: HttpClient) { }
 
-  // getData(location: string): Observable<SensorData[]> {
-  //   return this.http.get<SensorData[]>(baseUrl + '/sensor').pipe(
-  //     map((sensorData) => {
-  //       let array: SensorData[] = [];
-  //       for (const item of sensorData) {
-  //         array.push(item)
-  //       }
-  //       return array;
-  //     })
-  //   )
-  //   // let sensorDataArray: SensorData[] = [];
-  //   // this.demoData.map((sensorData) => {
-  //   //   sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
-  //   // })    
-  //   // return of(sensorDataArray);
-  // }
+  //methods for calling API
+  getStations(): Observable<Station[]> {
+    let stations: Station[] = [];   
+    this.locationsData.map((station) => {
+      stations.push(new Station(station.name, station.id));
+    }) 
+    return of(stations);
+  }
+
+  getAverageData(stationID: number): Observable<AverageData[]> {
+    let averageDataArray: AverageData[] = [];
+    for (const type of this.dataType) {
+      console.log(type);
+      this.http.get<AverageData>(baseUrl + `${ type.slug }` + `${ stationID }` + '/mean').pipe(
+        map((averageData) => averageDataArray.push(new AverageData(averageData.time, averageData.mean, type.name)))
+      )
+    }
+    return of(averageDataArray);
+    
+  }
+
+  getPressure(stationID: string): Observable<GraphData[]> {
+    let pressureArray: GraphData[] = [];
+    this.http.get<GraphData>(baseUrl + 'pressure' + `${ stationID }`).pipe(
+      map((averageData) => {
+        pressureArray.push(new GraphData(averageData.time, averageData.data, averageData.sensor, averageData.station, averageData.units));
+      })
+    )
+    return of(pressureArray);
+  }
+  getParticulateMatter(stationID: string): Observable<GraphData[]> {
+    let pmArray: GraphData[] = [];
+    this.http.get<GraphData>(baseUrl + 'particulatematter' + `${ stationID }`).pipe(
+      map((averageData) => {
+        pmArray.push(new GraphData(averageData.time, averageData.data, averageData.sensor, averageData.station, averageData.units))
+      })
+    )   
+    return of(pmArray);
+  }
   
-  getData(location: string): Observable<SensorData[]> {
+  // methods for dummy-daten
+  getData(stationID: number): Observable<SensorData[]> {
     let sensorDataArray: SensorData[] = [];
-    if (location === 'Station A') {
-      this.dataLocationA.map((sensorData) => {
-        sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
-      })   
-    } else if (location === 'Station B') {
-      this.dataLocationB.map((sensorData) => {
-        sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
-      })   
-    } else if (location === 'Station C') {
-      this.dataLocationC.map((sensorData) => {
-        sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
-      })   
-    } 
+    // for (const stationID of stationIDs) {
+      if (stationID === 0) {
+        this.dataLocationA.map((sensorData) => {
+          sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
+        })   
+      } else if (stationID === 1 ) {
+        this.dataLocationB.map((sensorData) => {
+          sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
+        })   
+      } else if (stationID === 2) {
+        this.dataLocationC.map((sensorData) => {
+          sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
+        })   
+      } 
+    // }
     return of(sensorDataArray);
   }
-  getHumidity(station: string): Observable<Humidity[]> {
+
+  getHumidity(stationID: number): Observable<Humidity[]> {
     let humidityArray: Humidity[] = [];
     this.dataHumidity.map((humidity) => {
       humidityArray.push(new Humidity(new Date(humidity.time), humidity.data, humidity.sensor, humidity.station, humidity.units))
@@ -70,7 +125,7 @@ export class SensorDataService {
     return of(humidityArray);
   }
 
-  getPM(station: string): Observable<PM[]> {
+  getPM(stationID: number): Observable<PM[]> {
     let pmArray: PM[] = [];
     this.dataPM.map((pm) => {
       pmArray.push(new PM(new Date(pm.time), pm.data, pm.sensor, pm.station, pm.units))
@@ -78,23 +133,18 @@ export class SensorDataService {
     return of(pmArray);
   }
 
-  getStations(): Observable<Station[]> {
-    let stations: Station[] = [];   
-    this.locationsData.map((station) => {
-      stations.push(new Station(station.name));
-    }) 
-    return of(stations);
-  }
-
   locationsData = [
     {
-      'name': 'Station A'
+      'name': 'Station A',
+      'id': 0,
     },
     {
-      'name': 'Station B'
+      'name': 'Station B',
+      'id': 1,
     },
     {
-      'name': 'Station C'
+      'name': 'Station C',
+      'id': 2,
     },
   ]
   

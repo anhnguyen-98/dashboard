@@ -11,6 +11,7 @@ mat-form-field {
     padding: 0 20px;
     border-left: 1px solid #ccccdc12;
     border-radius: 3px;
+    min-width: 300px;
 }
 
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
@@ -30,19 +31,28 @@ mat-form-field {
     border: 1px solid #ccccdc12;
     border-radius: 3px;
 }
+::ng-deep .mat-select-panel .mat-option {
+    color: white;
+}
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
     padding-top: 9px;
 }
 ::ng-deep .mat-form-field-infix {
     border-top: 0;
 }
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding-top: 1em !important;
+}
+::ng-deep .mat-pseudo-checkbox {
+    color: white !important;
+}
 
 .content-container {
-    padding: 10px;
+    padding: 5px 10px;
 }
 @media (max-width: 1620px) {
     .content-container {
-        max-width: 1000px;
+        /* max-width: 1000px; */
         margin: 0 auto;
     }
 }
@@ -56,13 +66,14 @@ mat-form-field {
 
 app-simple-card {
     margin: 5px;
-    /* flex: 1; */
+    flex: 1;
+    min-width: 15%;
 }
-/* @media (max-width: 1599px) {
+@media (max-width: 1139px) {
     app-simple-card {
-        flex: 30%;
+        min-width: 30%;
     }
-} */
+}
 
 mat-toolbar {
     height: 45px;
