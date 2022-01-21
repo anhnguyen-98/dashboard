@@ -53,15 +53,13 @@ export class SensorDataService {
   }
 
   getAverageData(stationID: number): Observable<AverageData[]> {
-    let averageDataArray: AverageData[] = [];
-    for (const type of this.dataType) {
-      console.log(type);
-      this.http.get<AverageData>(baseUrl + `${ type.slug }` + `${ stationID }` + '/mean').pipe(
-        map((averageData) => averageDataArray.push(new AverageData(averageData.time, averageData.mean, type.name)))
-      )
-    }
-    return of(averageDataArray);
-    
+    return this.http.get<AverageData>(baseUrl + `temperature` + `${ stationID }` + '/mean').pipe(
+      map((averageData) => {
+        let averageDataArray : AverageData[] = [];
+        averageDataArray.push(new AverageData(averageData.time, averageData.mean, 'Temparature'))
+        return averageDataArray;
+      })
+    )
   }
 
   getPressure(stationID: string): Observable<GraphData[]> {
