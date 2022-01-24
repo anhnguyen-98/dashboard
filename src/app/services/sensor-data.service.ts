@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { AverageData, GraphData, Humidity, PM, SensorData, Station } from '../models/sensor-data.models';
+import { AverageData, GraphData, Station } from '../models/sensor-data.models';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { baseUrl } from '../config/config'
@@ -10,9 +10,6 @@ import { baseUrl } from '../config/config'
 })
 export class SensorDataService {
   
-  // 'http:localhost:3000/api/humidity/0/mean'
-  // 'http:localhost:3000/api/humidity/0/mean'
-
   dataType = 
   [
     {
@@ -43,8 +40,95 @@ export class SensorDataService {
 
   constructor(private http: HttpClient) { }
 
-  //methods for calling API
+   //methods for calling API
   getStations(): Observable<Station[]> {
+    return this.http.get<Station>(baseUrl + 'stations').pipe(
+      map((station) => {
+        let stations: Station[] = [];
+        stations.push(station);
+        return stations
+      })
+    )
+  }
+
+  getTemparatureAverage(stationID: number): Observable<AverageData> {
+    return this.http.get<AverageData>(baseUrl + `temparature/${ stationID }/mean`).pipe(
+      map((averageData) => {
+        return new AverageData(averageData.mean, 'Temparatur', '°C', averageData.time,);
+      })
+    )
+  }
+  getCo2Average(stationID: number): Observable<AverageData> {
+    return this.http.get<AverageData>(baseUrl + `co2/${ stationID }/mean`).pipe(
+      map((averageData) => {
+        return new AverageData(averageData.mean, 'CO2-Gehalt', 'ppm', averageData.time);
+      })
+    )
+  }
+  getHumidityAverage(stationID: number): Observable<AverageData> {
+    return this.http.get<AverageData>(baseUrl + `humidity/${ stationID }/mean`).pipe(
+      map((averageData) => {
+        return new AverageData(averageData.mean, 'Luftfeuchtigkeit', '%H', averageData.time);
+      })
+    )
+  }
+  getBrightAverage(stationID: number): Observable<AverageData> {
+    return this.http.get<AverageData>(baseUrl + `???` + `/${ stationID }` + '/mean').pipe(
+      map((averageData) => {
+        return new AverageData(averageData.mean, 'Helligkeit', 'lm', averageData.time);
+      })
+    )
+  }
+  getPressureAverage(stationID: number): Observable<AverageData> {
+    return this.http.get<AverageData>(baseUrl + `pressure/${ stationID }/mean`).pipe(
+      map((averageData) => {
+        return new AverageData(averageData.mean, 'Druck', 'hPa', averageData.time);
+      })
+    )
+  }
+  getParticulateMatterAverage(stationID: number): Observable<AverageData> {
+    return this.http.get<AverageData>(baseUrl + `particulatematter/${ stationID }/mean`).pipe(
+      map((averageData) => {
+        return new AverageData(averageData.mean, 'Feinstaub', 'µm/m3', averageData.time);
+      })
+    )
+  }
+
+  getAverageArray(stationID: number) : Observable<AverageData[]> {
+    let averageDataArray: AverageData[] = [];
+
+    this.getTemparatureAverage(stationID).subscribe((averageTemparature) => averageDataArray.push(averageTemparature));
+    this.getCo2Average(stationID).subscribe((averageCo2) => averageDataArray.push(averageCo2));
+    this.getHumidityAverage(stationID).subscribe((averageHumidity) => averageDataArray.push(averageHumidity));
+    this.getBrightAverage(stationID).subscribe((averageBright) => averageDataArray.push(averageBright));
+    this.getPressureAverage(stationID).subscribe((averagePressure) => averageDataArray.push(averagePressure));
+    this.getParticulateMatterAverage(stationID).subscribe((averagePM) => averageDataArray.push(averagePM));
+
+    return of(averageDataArray);
+  }
+
+  getPressure(stationID: number): Observable<GraphData[]> {
+    return this.http.get<GraphData>(baseUrl + 'pressure' + `/${ stationID }`).pipe(
+      map((averageData) => {
+        let pressureArray: GraphData[] = [];
+        pressureArray.push(new GraphData(averageData.time, averageData.data, averageData.sensor, 
+          averageData.station, averageData.units));
+        return pressureArray;
+      })
+    )
+  }
+  getParticulateMatter(stationID: number): Observable<GraphData[]> {
+    return this.http.get<GraphData>(baseUrl + 'particulatematter' + `/${ stationID }`).pipe(
+      map((averageData) => {
+        let pmArray: GraphData[] = [];
+        pmArray.push(new GraphData(averageData.time, averageData.data, averageData.sensor, averageData.station, averageData.units));
+        return pmArray;
+      })
+    )
+  }
+  
+  // methods for dummy-daten
+  getStation(): Observable<Station[]> {
     let stations: Station[] = [];   
     this.locationsData.map((station) => {
       stations.push(new Station(station.name, station.id));
@@ -52,81 +136,45 @@ export class SensorDataService {
     return of(stations);
   }
 
-  getAverageData(stationID: number): Observable<AverageData[]> {
-    return this.http.get<AverageData>(baseUrl + `temperature` + `${ stationID }` + '/mean').pipe(
-      map((averageData) => {
-        let averageDataArray : AverageData[] = [];
-        averageDataArray.push(new AverageData(averageData.time, averageData.mean, 'Temparature'))
-        return averageDataArray;
-      })
-    )
-  }
-
-  getPressure(stationID: string): Observable<GraphData[]> {
-    let pressureArray: GraphData[] = [];
-    this.http.get<GraphData>(baseUrl + 'pressure' + `${ stationID }`).pipe(
-      map((averageData) => {
-        pressureArray.push(new GraphData(averageData.time, averageData.data, averageData.sensor, averageData.station, averageData.units));
-      })
-    )
-    return of(pressureArray);
-  }
-  getParticulateMatter(stationID: string): Observable<GraphData[]> {
-    let pmArray: GraphData[] = [];
-    this.http.get<GraphData>(baseUrl + 'particulatematter' + `${ stationID }`).pipe(
-      map((averageData) => {
-        pmArray.push(new GraphData(averageData.time, averageData.data, averageData.sensor, averageData.station, averageData.units))
-      })
-    )   
-    return of(pmArray);
-  }
-  
-  // methods for dummy-daten
-  getData(stationID: number): Observable<SensorData[]> {
-    let sensorDataArray: SensorData[] = [];
+  getData(stationID: number): Observable<AverageData[]> {
+    let averageDataArray: AverageData[] = [];
     // for (const stationID of stationIDs) {
       if (stationID === 0) {
-        this.dataLocationA.map((sensorData) => {
-          sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
+        this.dataLocationA.map((averageData) => {
+          averageDataArray.push(new AverageData(averageData.value, averageData.sensor, averageData.unit))
         })   
       } else if (stationID === 1 ) {
-        this.dataLocationB.map((sensorData) => {
-          sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
+        this.dataLocationB.map((averageData) => {
+          averageDataArray.push(new AverageData(averageData.value, averageData.sensor, averageData.unit))
         })   
       } else if (stationID === 2) {
-        this.dataLocationC.map((sensorData) => {
-          sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
+        this.dataLocationC.map((averageData) => {
+          averageDataArray.push(new AverageData(averageData.value, averageData.sensor, averageData.unit))
         })   
       } 
     // }
-    return of(sensorDataArray);
+    return of(averageDataArray);
   }
 
-  getHumidity(stationID: number): Observable<Humidity[]> {
-    let humidityArray: Humidity[] = [];
-    this.dataHumidity.map((humidity) => {
-      humidityArray.push(new Humidity(new Date(humidity.time), humidity.data, humidity.sensor, humidity.station, humidity.units))
-        }) 
-    // if (location === 'Location A') {
-    //   this.dataLocationA.map((sensorData) => {
-    //     sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
-    //   })   
-    // } else if (location === 'Location B') {
-    //   this.dataLocationB.map((sensorData) => {
-    //     sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
-    //   })   
-    // } else if (location === 'Location C') {
-    //   this.dataLocationC.map((sensorData) => {
-    //     sensorDataArray.push(new SensorData(sensorData.sensor, sensorData.value, sensorData.timestamp, sensorData.unit))
-    //   })   
-    // } 
+  getHumidity(stationID: number): Observable<GraphData[]> {
+    let humidityArray: GraphData[] = [];
+    this.dataGraph1.map((humidity) => {
+      humidityArray.push(new GraphData(new Date(humidity.time), humidity.data, humidity.sensor, humidity.station, humidity.units))
+        })
     return of(humidityArray);
   }
 
-  getPM(stationID: number): Observable<PM[]> {
-    let pmArray: PM[] = [];
-    this.dataPM.map((pm) => {
-      pmArray.push(new PM(new Date(pm.time), pm.data, pm.sensor, pm.station, pm.units))
+  getPM(stationID: number): Observable<GraphData[]> {
+    let pmArray: GraphData[] = [];
+    this.dataGraph2.map((pm) => {
+      pmArray.push(new GraphData(new Date(pm.time), pm.data, pm.sensor, pm.station, pm.units))
+        }) 
+    return of(pmArray);
+  }
+  getX(stationID: number): Observable<GraphData[]> {
+    let pmArray: GraphData[] = [];
+    this.dataGraph3.map((pm) => {
+      pmArray.push(new GraphData(new Date(pm.time), pm.data, pm.sensor, pm.station, pm.units))
         }) 
     return of(pmArray);
   }
@@ -149,37 +197,37 @@ export class SensorDataService {
   dataLocationA = [
     { 
       'sensor': 'Temperatur', 
-      'value': '23', 
+      'value': 23, 
       'timestamp': '12345678',
       'unit': '°C'
     },
     { 
       'sensor': 'CO2-Gehalt', 
-      'value': '500', 
+      'value': 500, 
       'timestamp': '52345678',
       'unit': 'ppm'
     },
     { 
       'sensor': 'Luftfeuchtigkeit', 
-      'value': '37', 
+      'value': 37, 
       'timestamp': '92345678',
       'unit': '%H'
     },
     { 
       'sensor': 'Helligkeit', 
-      'value': '99', 
+      'value': 99, 
       'timestamp': '92345678',
       'unit': 'lm'
     },
     { 
       'sensor': 'Druck', 
-      'value': '16.2', 
+      'value': 16.2, 
       'timestamp': '92345678',
       'unit': 'hPa'
     },
     { 
       'sensor': 'Feinstaub', 
-      'value': '53.1', 
+      'value': 53.1, 
       'timestamp': '92345678',
       'unit': 'µm/m3'
     },
@@ -187,37 +235,37 @@ export class SensorDataService {
   dataLocationB = [
     { 
       'sensor': 'Temperatur', 
-      'value': '30', 
+      'value': 30, 
       'timestamp': '12345678',
       'unit': '°C'
     },
     { 
       'sensor': 'CO2-Gehalt', 
-      'value': '498', 
+      'value': 498.2, 
       'timestamp': '52345678',
       'unit': 'ppm'
     },
     { 
       'sensor': 'Luftfeuchtigkeit', 
-      'value': '46', 
+      'value': 46.3, 
       'timestamp': '92345678',
       'unit': '%H'
     },
     { 
       'sensor': 'Helligkeit', 
-      'value': '93', 
+      'value': 93.5, 
       'timestamp': '92345678',
       'unit': 'lm'
     },
     { 
       'sensor': 'Druck', 
-      'value': '17.5', 
+      'value': 17.5, 
       'timestamp': '92345678',
       'unit': 'hPa'
     },
     { 
       'sensor': 'Feinstaub', 
-      'value': '53.9', 
+      'value': 53.9, 
       'timestamp': '92345678',
       'unit': 'µm/m3'
     },
@@ -225,43 +273,43 @@ export class SensorDataService {
   dataLocationC = [
     { 
       'sensor': 'Temperatur', 
-      'value': '10', 
+      'value': 10.3, 
       'timestamp': '12345678',
       'unit': '°C'
     },
     { 
       'sensor': 'CO2-Gehalt', 
-      'value': '502', 
+      'value': 502.2, 
       'timestamp': '52345678',
       'unit': 'ppm'
     },
     { 
       'sensor': 'Luftfeuchtigkeit', 
-      'value': '39', 
+      'value': 39.1, 
       'timestamp': '92345678',
       'unit': '%H'
     },
     { 
       'sensor': 'Helligkeit', 
-      'value': '80', 
+      'value': 80.5, 
       'timestamp': '92345678',
       'unit': 'lm'
     },
     { 
       'sensor': 'Druck', 
-      'value': '19.2', 
+      'value': 19.2, 
       'timestamp': '92345678',
       'unit': 'hPa'
     },
     { 
       'sensor': 'Feinstaub', 
-      'value': '52.1', 
+      'value': 52.1, 
       'timestamp': '92345678',
       'unit': 'µm/m3'
     },
   ];
 
-  dataHumidity = [
+  dataGraph1 = [
     {
     "time": "2021-12-11T23:00:22.000Z",
     "data": 50.47963234709777,
@@ -936,8 +984,7 @@ export class SensorDataService {
     },
   ];
 
-
-  dataPM = [
+  dataGraph2 = [
     {
     "time": "2021-12-11T23:00:22",
     "data": 45.47963234709777,
@@ -1611,4 +1658,301 @@ export class SensorDataService {
     "units": "µm/m3"
     },
   ];
+
+  dataGraph3 = [
+    {
+    "time": "2021-12-11T23:00:18.000Z",
+    "data": 47.976776592156774,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-11T23:04:28.000Z",
+    "data": 52.042099203553775,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-11T23:58:55.000Z",
+    "data": 48.11170638839452,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T00:03:05.000Z",
+    "data": 49.9101590430957,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T01:03:06.000Z",
+    "data": 54.025285448526894,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T01:03:31.000Z",
+    "data": 45.80478693311881,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T01:40:56.000Z",
+    "data": 52.48468470222107,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T04:37:01.000Z",
+    "data": 51.49260869128676,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T05:31:34.000Z",
+    "data": 48.42812520057013,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T05:33:08.000Z",
+    "data": 47.05221947585801,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T05:41:07.000Z",
+    "data": 47.33244762632522,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T06:09:56.000Z",
+    "data": 53.476965049490914,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T06:10:33.000Z",
+    "data": 47.41031675875326,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T06:51:51.000Z",
+    "data": 50.14191560381108,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T07:20:37.000Z",
+    "data": 52.791195988603825,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T07:54:42.000Z",
+    "data": 51.143506779166714,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T08:33:54.000Z",
+    "data": 45.38249234471207,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T08:53:33.000Z",
+    "data": 47.33874076225132,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T09:04:10.000Z",
+    "data": 46.23895741924818,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T09:14:02.000Z",
+    "data": 53.243304539536425,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T10:37:15.000Z",
+    "data": 47.9381035929664,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T10:38:46.000Z",
+    "data": 46.63022783012801,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T10:53:35.000Z",
+    "data": 52.30601440568743,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T12:26:46.000Z",
+    "data": 50.80506668766504,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T12:38:16.000Z",
+    "data": 49.68724234618072,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T12:38:27.000Z",
+    "data": 49.26870876972401,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T12:39:19.000Z",
+    "data": 52.52922567331222,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T12:41:50.000Z",
+    "data": 47.33486791368825,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T12:57:00.000Z",
+    "data": 45.16842891353535,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T13:15:33.000Z",
+    "data": 50.346281859219026,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T13:23:04.000Z",
+    "data": 54.73733658301015,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T14:59:41.000Z",
+    "data": 52.28018689546171,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T15:30:13.000Z",
+    "data": 50.088293051761326,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T17:32:22.000Z",
+    "data": 54.28622712703327,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T18:36:16.000Z",
+    "data": 49.761978586752996,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T20:05:28.000Z",
+    "data": 53.97738803441648,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T20:21:11.000Z",
+    "data": 50.309698801118714,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T21:20:56.000Z",
+    "data": 45.382604468172104,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T22:13:20.000Z",
+    "data": 52.608981173446836,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T22:29:34.000Z",
+    "data": 51.25869685355215,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T22:41:44.000Z",
+    "data": 53.70873710130357,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    },
+    {
+    "time": "2021-12-12T22:53:10.000Z",
+    "data": 54.73789558893531,
+    "sensor": "201",
+    "station": "1",
+    "units": "%H"
+    }
+    ]
 }

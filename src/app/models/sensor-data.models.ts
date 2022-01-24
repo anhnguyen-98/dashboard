@@ -1,16 +1,16 @@
-export class SensorData {
-    sensor: string;
-    value: string;
-    timestamp: string;
-    unit: string;
+// export class SensorData {
+//     sensor: string;
+//     value: string;
+//     timestamp: string;
+//     unit: string;
 
-    constructor(sensor: string, value: string, timestamp: string, unit: string) {
-        this.sensor = sensor;
-        this.value = value;
-        this.timestamp = timestamp;
-        this.unit = unit;
-    }
-}
+//     constructor(sensor: string, value: string, timestamp: string, unit: string) {
+//         this.sensor = sensor;
+//         this.value = value;
+//         this.timestamp = timestamp;
+//         this.unit = unit;
+//     }
+// }
 
 export class AverageData {
     time: Date;
@@ -18,7 +18,8 @@ export class AverageData {
     name: string;
     units: string;
 
-    constructor(time: Date, mean: number, name = '', units = '') {
+    constructor(mean: number, name = '', units = '', 
+    time = '2021-12-11T23:00:22.000Z' as unknown as Date,) {
         this.time = time;
         this.mean = mean;
         this.name = name;
@@ -26,37 +27,37 @@ export class AverageData {
     }
 }
 
-export class PM {
-    time: Date;
-    data: number;
-    sensor: string;
-    station: string;
-    units: string;
+// export class PM {
+//     time: Date;
+//     data: number;
+//     sensor: string;
+//     station: string;
+//     units: string;
 
-    constructor(time: Date, data: number, sensor: string, station: string, units: string) {
-        this.time = time;
-        this.sensor = sensor;
-        this.data = data;
-        this.station = station;
-        this.units = units;
-    }
-}
+//     constructor(time: Date, data: number, sensor: string, station: string, units: string) {
+//         this.time = time;
+//         this.sensor = sensor;
+//         this.data = data;
+//         this.station = station;
+//         this.units = units;
+//     }
+// }
 
-export class Humidity {
-    time: Date;
-    data: number;
-    sensor: string;
-    station: string;
-    units: string;
+// export class Humidity {
+//     time: Date;
+//     data: number;
+//     sensor: string;
+//     station: string;
+//     units: string;
 
-    constructor(time: Date, data: number, sensor: string, station: string, units: string) {
-        this.time = time;
-        this.sensor = sensor;
-        this.data = data;
-        this.station = station;
-        this.units = units;
-    }
-}
+//     constructor(time: Date, data: number, sensor: string, station: string, units: string) {
+//         this.time = time;
+//         this.sensor = sensor;
+//         this.data = data;
+//         this.station = station;
+//         this.units = units;
+//     }
+// }
 
 export class GraphData {
     time: Date;
