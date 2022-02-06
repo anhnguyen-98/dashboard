@@ -1,18 +1,92 @@
 <div class="card-container">
-  <!-- <div class="header">
-    {{ sensorData?.sensor }}
-  </div>
-  <div class="content">
-    <div>
-      <span class="value">{{ sensorData?.value }}</span> <span class="unit">{{ sensorData?.unit}}</span>
+  <div class="card" *ngIf="temperatureA">
+    <div class="header">
+      {{ temperatureA.name }}
     </div>
-  </div> -->
-  <div class="header">
-    {{ averageData?.name }}
+    <div class="content">
+      <div>
+        <span class="value">{{ temperatureA.mean?.toFixed(1) }}</span> <span class="unit">{{ temperatureA.unit}}</span>
+      </div>
+    </div>
   </div>
-  <div class="content">
-    <div>
-      <span class="value">{{ averageData?.mean }}</span> <span class="unit">{{ averageData?.units}}</span>
+  <div class="card" *ngIf="co2A">
+    <div class="header">
+      {{ co2A.name }}
+    </div>
+    <div class="content">
+      <div>
+        <span class="value">{{ co2A.mean?.toFixed(1) }}</span> <span class="unit">{{ co2A.unit}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card" *ngIf="humidityA">
+    <div class="header">
+      {{ humidityA.name }}
+    </div>
+    <div class="content">
+      <div>
+        <span class="value">{{ humidityA.mean?.toFixed(1) }}</span> <span class="unit">{{ humidityA.unit}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card" *ngIf="pressureA">
+    <div class="header">
+      {{ pressureA.name }}
+    </div>
+    <div class="content">
+      <div>
+        <span class="value">{{ pressureA.mean?.toFixed(1) }}</span> <span class="unit">{{ pressureA.unit}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card" *ngIf="brightA">
+    <div class="header">
+      {{ brightA.name }}
+    </div>
+    <div class="content">
+      <div>
+        <span class="value">{{ brightA.mean?.toFixed(1) }}</span> <span class="unit">{{ brightA.unit}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card" *ngIf="pm25amountconc">
+    <div class="header">
+      {{ pm25amountconc.name }}
+    </div>
+    <div class="content">
+      <div>
+        <span class="value">{{ pm25amountconc.mean?.toFixed(1) }}</span> <span class="unit">{{ pm25amountconc.unit}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card" *ngIf="pm10amountconc">
+    <div class="header">
+      {{ pm10amountconc.name }}
+    </div>
+    <div class="content">
+      <div>
+        <span class="value">{{ pm10amountconc.mean?.toFixed(1) }}</span> <span class="unit">{{ pm10amountconc.unit}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card" *ngIf="pm25conc">
+    <div class="header">
+      {{ pm25conc.name }}
+    </div>
+    <div class="content">
+      <div>
+        <span class="value">{{ pm25conc.mean?.toFixed(1) }}</span> <span class="unit">{{ pm25conc.unit}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card" *ngIf="pm10conc">
+    <div class="header">
+      {{ pm10conc.name }}
+    </div>
+    <div class="content">
+      <div>
+        <span class="value">{{ pm10conc.mean?.toFixed(1) }}</span> <span class="unit">{{ pm10conc.unit}}</span>
+      </div>
     </div>
   </div>
 </div>

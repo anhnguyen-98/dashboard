@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { AverageData, GraphData, Station } from '../models/sensor-data.models';
+import { AverageData, GraphData, GraphDataApi, Station } from '../models/sensor-data.models';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { baseUrl } from '../config/config'
@@ -9,124 +9,95 @@ import { baseUrl } from '../config/config'
   providedIn: 'root'
 })
 export class SensorDataService {
-  
-  dataType = 
-  [
-    {
-      'name': 'Temparatur',
-      'slug': 'temparature'
-    },
-    { 
-      'name': 'CO2-Gehalt',
-      'slug': 'co2'
-    }, 
-    { 
-      'name': 'Feuchtigkeit',
-      'slug': 'humidity'
-    }, 
-    // {
-    //   'name': 'Helligkeit',
-    //   'slug': ''
-    // }, 
-    {
-      'name': 'Druck',
-      'slug': 'pressure'
-    }, 
-    // {
-    //   'name': 'Feinstaub',
-    //   'slug': ''
-    // }
-  ]
-
   constructor(private http: HttpClient) { }
 
    //methods for calling API
   getStations(): Observable<Station[]> {
-    return this.http.get<Station>(baseUrl + 'stations').pipe(
+    return this.http.get<any>(baseUrl + 'stations').pipe(
       map((station) => {
-        let stations: Station[] = [];
-        stations.push(station);
-        return stations
+        return station;
       })
     )
   }
 
-  getTemparatureAverage(stationID: number): Observable<AverageData> {
-    return this.http.get<AverageData>(baseUrl + `temparature/${ stationID }/mean`).pipe(
-      map((averageData) => {
-        return new AverageData(averageData.mean, 'Temparatur', '°C', averageData.time,);
-      })
-    )
-  }
-  getCo2Average(stationID: number): Observable<AverageData> {
-    return this.http.get<AverageData>(baseUrl + `co2/${ stationID }/mean`).pipe(
-      map((averageData) => {
-        return new AverageData(averageData.mean, 'CO2-Gehalt', 'ppm', averageData.time);
-      })
-    )
-  }
-  getHumidityAverage(stationID: number): Observable<AverageData> {
-    return this.http.get<AverageData>(baseUrl + `humidity/${ stationID }/mean`).pipe(
-      map((averageData) => {
-        return new AverageData(averageData.mean, 'Luftfeuchtigkeit', '%H', averageData.time);
-      })
-    )
-  }
-  getBrightAverage(stationID: number): Observable<AverageData> {
-    return this.http.get<AverageData>(baseUrl + `???` + `/${ stationID }` + '/mean').pipe(
-      map((averageData) => {
-        return new AverageData(averageData.mean, 'Helligkeit', 'lm', averageData.time);
-      })
-    )
-  }
-  getPressureAverage(stationID: number): Observable<AverageData> {
-    return this.http.get<AverageData>(baseUrl + `pressure/${ stationID }/mean`).pipe(
-      map((averageData) => {
-        return new AverageData(averageData.mean, 'Druck', 'hPa', averageData.time);
-      })
-    )
-  }
-  getParticulateMatterAverage(stationID: number): Observable<AverageData> {
-    return this.http.get<AverageData>(baseUrl + `particulatematter/${ stationID }/mean`).pipe(
-      map((averageData) => {
-        return new AverageData(averageData.mean, 'Feinstaub', 'µm/m3', averageData.time);
+  getAverageData(type: string, stationID: number): Observable<AverageData> {
+    return this.http.get<any>(baseUrl + type +`/${ stationID }/mean`).pipe(
+      map((averageData) => { 
+        return new AverageData(averageData[0].mean, averageData[0].name, averageData[0].unit, averageData[0].time);
       })
     )
   }
 
-  getAverageArray(stationID: number) : Observable<AverageData[]> {
-    let averageDataArray: AverageData[] = [];
-
-    this.getTemparatureAverage(stationID).subscribe((averageTemparature) => averageDataArray.push(averageTemparature));
-    this.getCo2Average(stationID).subscribe((averageCo2) => averageDataArray.push(averageCo2));
-    this.getHumidityAverage(stationID).subscribe((averageHumidity) => averageDataArray.push(averageHumidity));
-    this.getBrightAverage(stationID).subscribe((averageBright) => averageDataArray.push(averageBright));
-    this.getPressureAverage(stationID).subscribe((averagePressure) => averageDataArray.push(averagePressure));
-    this.getParticulateMatterAverage(stationID).subscribe((averagePM) => averageDataArray.push(averagePM));
-
-    return of(averageDataArray);
-  }
-
-  getPressure(stationID: number): Observable<GraphData[]> {
-    return this.http.get<GraphData>(baseUrl + 'pressure' + `/${ stationID }`).pipe(
-      map((averageData) => {
-        let pressureArray: GraphData[] = [];
-        pressureArray.push(new GraphData(averageData.time, averageData.data, averageData.sensor, 
-          averageData.station, averageData.units));
-        return pressureArray;
+  getGraphData(type: string, stationID: number): Observable<GraphDataApi> {
+    return this.http.get<GraphDataApi>(baseUrl + type + `/${ stationID }`).pipe(
+      map((data: GraphDataApi) => {
+        return {
+          name: data.name, 
+          unit: data.unit, 
+          dataArray: data.dataArray.map((element: GraphData) => new GraphData(new Date(element.time), 
+          element.data, element.sensor, element.station))
+        };
       })
     )
   }
-  getParticulateMatter(stationID: number): Observable<GraphData[]> {
-    return this.http.get<GraphData>(baseUrl + 'particulatematter' + `/${ stationID }`).pipe(
-      map((averageData) => {
-        let pmArray: GraphData[] = [];
-        pmArray.push(new GraphData(averageData.time, averageData.data, averageData.sensor, averageData.station, averageData.units));
-        return pmArray;
-      })
-    )
-  }
+  // getTemperatureAverage(stationID: number): Observable<AverageData> {
+  //   return this.http.get<AverageData>(baseUrl + `temperature/${ stationID }/mean`).pipe(
+  //     map((averageData) => {
+  //       return new AverageData(averageData.mean, averageData.name, averageData.units, averageData.time,);
+  //     })
+  //   )
+  // }
+  // getCo2Average(stationID: number): Observable<AverageData> {
+  //   return this.http.get<AverageData>(baseUrl + `co2/${ stationID }/mean`).pipe(
+  //     map((averageData) => {
+  //       return new AverageData(averageData.mean, 'CO2-Gehalt', 'ppm', averageData.time);
+  //     })
+  //   )
+  // }
+  // getHumidityAverage(stationID: number): Observable<AverageData> {
+  //   return this.http.get<AverageData>(baseUrl + `humidity/${ stationID }/mean`).pipe(
+  //     map((averageData) => {
+  //       return new AverageData(averageData.mean, 'Luftfeuchtigkeit', '%H', averageData.time);
+  //     })
+  //   )
+  // }
+  // getBrightAverage(stationID: number): Observable<AverageData> {
+  //   return this.http.get<AverageData>(baseUrl + `???` + `/${ stationID }` + '/mean').pipe(
+  //     map((averageData) => {
+  //       return new AverageData(averageData.mean, 'Helligkeit', 'lm', averageData.time);
+  //     })
+  //   )
+  // }
+  // getPressureAverage(stationID: number): Observable<AverageData> {
+  //   return this.http.get<AverageData>(baseUrl + `pressure/${ stationID }/mean`).pipe(
+  //     map((averageData) => {
+  //       return new AverageData(averageData.mean, 'Druck', 'hPa', averageData.time);
+  //     })
+  //   )
+  // }
+  // getParticulateMatterAverage(stationID: number): Observable<AverageData> {
+  //   return this.http.get<AverageData>(baseUrl + `particulatematter/${ stationID }/mean`).pipe(
+  //     map((averageData) => {
+  //       return new AverageData(averageData.mean, 'Feinstaub', 'µm/m3', averageData.time);
+  //     })
+  //   )
+  // }
+
+  // getAverageArray(stationID: number) : Observable<AverageData[]> {
+  //   let averageDataArray: AverageData[] = [];
+
+  //   this.getTemperatureAverage(stationID).subscribe((averageTemperature) => averageDataArray.push(averageTemperature));
+  //   this.getCo2Average(stationID).subscribe((averageCo2) => averageDataArray.push(averageCo2));
+  //   this.getHumidityAverage(stationID).subscribe((averageHumidity) => averageDataArray.push(averageHumidity));
+  //   this.getBrightAverage(stationID).subscribe((averageBright) => averageDataArray.push(averageBright));
+  //   this.getPressureAverage(stationID).subscribe((averagePressure) => averageDataArray.push(averagePressure));
+  //   this.getParticulateMatterAverage(stationID).subscribe((averagePM) => averageDataArray.push(averagePM));
+
+  //   return of(averageDataArray);
+  // }
+
   
+
   // methods for dummy-daten
   getStation(): Observable<Station[]> {
     let stations: Station[] = [];   
@@ -156,25 +127,39 @@ export class SensorDataService {
     return of(averageDataArray);
   }
 
+  getTemperature(stationID: number): Observable<GraphData[]> {
+    let temperatureArray: GraphData[] = [];
+    this.dataGraph2.map((humidity) => {
+      temperatureArray.push(new GraphData(new Date(humidity.time), humidity.data, humidity.sensor, humidity.station))
+        })
+    return of(temperatureArray);
+  }
+  getCo2(stationID: number): Observable<GraphData[]> {
+    let humidityArray: GraphData[] = [];
+    this.dataGraph2.map((humidity) => {
+      humidityArray.push(new GraphData(new Date(humidity.time), humidity.data, humidity.sensor, humidity.station))
+        })
+    return of(humidityArray);
+  }
   getHumidity(stationID: number): Observable<GraphData[]> {
     let humidityArray: GraphData[] = [];
-    this.dataGraph1.map((humidity) => {
-      humidityArray.push(new GraphData(new Date(humidity.time), humidity.data, humidity.sensor, humidity.station, humidity.units))
+    this.dataGraph2.map((humidity) => {
+      humidityArray.push(new GraphData(new Date(humidity.time), humidity.data, humidity.sensor, humidity.station))
         })
     return of(humidityArray);
   }
 
-  getPM(stationID: number): Observable<GraphData[]> {
+  getPM(stationID: number): Observable<any> {
     let pmArray: GraphData[] = [];
     this.dataGraph2.map((pm) => {
-      pmArray.push(new GraphData(new Date(pm.time), pm.data, pm.sensor, pm.station, pm.units))
+      pmArray.push(new GraphData(new Date(pm.time), pm.data, pm.sensor, pm.station))
         }) 
-    return of(pmArray);
+    return of({name: 'Feinstaub', pmArray});
   }
   getX(stationID: number): Observable<GraphData[]> {
     let pmArray: GraphData[] = [];
     this.dataGraph3.map((pm) => {
-      pmArray.push(new GraphData(new Date(pm.time), pm.data, pm.sensor, pm.station, pm.units))
+      pmArray.push(new GraphData(new Date(pm.time), pm.data, pm.sensor, pm.station))
         }) 
     return of(pmArray);
   }
@@ -187,10 +172,6 @@ export class SensorDataService {
     {
       'name': 'Station B',
       'id': 1,
-    },
-    {
-      'name': 'Station C',
-      'id': 2,
     },
   ]
   
@@ -214,20 +195,20 @@ export class SensorDataService {
       'unit': '%H'
     },
     { 
-      'sensor': 'Helligkeit', 
-      'value': 99, 
-      'timestamp': '92345678',
-      'unit': 'lm'
-    },
-    { 
       'sensor': 'Druck', 
       'value': 16.2, 
       'timestamp': '92345678',
       'unit': 'hPa'
     },
     { 
-      'sensor': 'Feinstaub', 
-      'value': 53.1, 
+      'sensor': 'Feinstaub PM2.5', 
+      'value': 53.9, 
+      'timestamp': '92345678',
+      'unit': 'µm/m3'
+    },
+    { 
+      'sensor': 'Feinstaub PM10', 
+      'value': 70.1, 
       'timestamp': '92345678',
       'unit': 'µm/m3'
     },
@@ -309,7 +290,10 @@ export class SensorDataService {
     },
   ];
 
-  dataGraph1 = [
+  dataHumidity = {
+  unit: "%H",
+  name: "Humidity",
+  dataArray : [
     {
     "time": "2021-12-11T23:00:22.000Z",
     "data": 50.47963234709777,
@@ -982,7 +966,8 @@ export class SensorDataService {
     "station": "0",
     "units": "%H"
     },
-  ];
+  ]
+}
 
   dataGraph2 = [
     {
@@ -1954,5 +1939,5 @@ export class SensorDataService {
     "station": "1",
     "units": "%H"
     }
-    ]
+  ]
 }

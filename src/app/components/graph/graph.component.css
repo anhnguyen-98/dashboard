@@ -7,15 +7,29 @@
 }
 
 .chart {
-    min-width: 400px;
+    min-width: 49.2%;
     border: 1px solid #ccccdc12;
     border-radius: 3px;
     background-color: #181b1f;
-    margin: 5px;
+    margin: 0.3%;
     text-align: center;
     /* flex: 47%; */
-    flex: 1;
+    /* flex: 49%; */
+}
 
+mat-slider {
+    margin-top: -20px;
+}
+
+/* @media (max-width: 1268px) {
+    .chart {
+        min-width: 49%;
+    }
+} */
+@media (max-width: 1018px) {
+    .chart {
+        min-width: 99%;
+    }
 }
 
 .svg-container {
@@ -40,7 +54,7 @@
     }
 } */
 
-#scatter1, #scatter2{
+#scatter1, #scatter2, #scatter3, #scatter4 ,#scatter5 ,#scatter6, #scatter7 {
     margin: 15px;
 }
 
@@ -79,6 +93,11 @@
 ::ng-deep .line {
     fill: none;
     stroke: rgb(115, 191, 105);
-    stroke-width: 2px;
-  }
+    stroke-width: 1.4px;
+}
+::ng-deep .line-1 {
+    fill: none;
+    stroke: white;
+    stroke-width: 1.4px;
+}
   

@@ -1,28 +1,119 @@
 <div class="chart-container">
+    <!-- <div class="chart"> -->
+        <!-- <div class="header">
+            Humidity
+        </div> -->
+        
+        <!-- <div class="content">
+            <div id="scatter1"></div>
+        </div>
+    </div> -->
     <div class="chart">
         <div class="header">
-            <!-- Druck -->
-            Humidity
+            Temperatur
         </div>
-        <!-- <mat-slider
+        <div class="content">
+            <div id="scatter1"></div>
+        </div>
+         <mat-slider
             [max]="max"
             [min]="min"
             [step]="step"
             [thumbLabel]="thumbLabel"
-            [(ngModel)]="value"
-            (input)="onChange($event)">
-        </mat-slider> -->
-        <div class="content">
-            <div id="scatter1"></div>
-        </div>
+            [(ngModel)]="value1"
+            (input)="onChange1($event)">
+        </mat-slider>
     </div>
     <div class="chart">
         <div class="header">
-            Feinstaub
+            CO2-Gehalt
         </div>
         <div class="content">
             <div id="scatter2"></div>
         </div>
+        <mat-slider
+            [max]="max"
+            [min]="min"
+            [step]="step"
+            [(ngModel)]="value2"
+            (input)="onChange2($event)">
+        </mat-slider>
+    </div>
+    <div class="chart">
+        <div class="header">
+            Luftfeuchtigkeit
+        </div>
+        <div class="content">
+            <div id="scatter3"></div>
+        </div>
+        <mat-slider
+            [max]="max"
+            [min]="min"
+            [step]="step"
+            [(ngModel)]="value3"
+            (input)="onChange3($event)">
+        </mat-slider>
+    </div>
+    <div class="chart">
+        <div class="header">
+            Helligkeit
+        </div>
+        <div class="content">
+            <div id="scatter7"></div>
+        </div>
+        <mat-slider
+            [max]="max"
+            [min]="min"
+            [step]="step"
+            [(ngModel)]="value7"
+            (input)="onChange7($event)">
+        </mat-slider>
+    </div>
+    <div class="chart">
+        <div class="header">
+            Druck
+        </div>
+        <div class="content">
+            <div id="scatter4"></div>
+        </div>
+        <mat-slider
+            [max]="max"
+            [min]="min"
+            [step]="step"
+            [(ngModel)]="value4"
+            (input)="onChange4($event)">
+        </mat-slider>
+    </div>
+    <div class="chart">
+        <div class="header">
+            Feinstaub Amount Concentration
+        </div>
+        <div class="content">
+            <div id="scatter5"></div>
+        </div>
+        <mat-slider
+            [max]="max"
+            [min]="min"
+            [step]="step"
+            [thumbLabel]="thumbLabel"
+            [(ngModel)]="value5"
+            (input)="onChange5($event)">
+        </mat-slider>
+    </div>
+    <div class="chart">
+        <div class="header">
+            Feinstaub Mass Concentration
+        </div>
+        <div class="content">
+            <div id="scatter6"></div>
+        </div>
+        <mat-slider
+            [max]="max"
+            [min]="min"
+            [step]="step"
+            [(ngModel)]="value6"
+            (input)="onChange6($event)">
+        </mat-slider>
     </div>
 </div>
     
