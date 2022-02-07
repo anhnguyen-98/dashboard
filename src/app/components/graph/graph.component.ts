@@ -38,7 +38,10 @@ export class GraphComponent implements OnInit, OnChanges {
   yAxisGrid1: any; yAxisGrid2: any; yAxisGrid3: any; yAxisGrid4: any; yAxisGrid5: any; yAxisGrid6: any; yAxisGrid7: any;
   line1: any; line2: any; line3: any; line4: any; line5: any; line6: any; line7: any;
   dots1: any; 
+  Tooltip1: any; 
   // line2: any; line3: any; line4: any; line5: any; line6: any; line7: any;
+  xLine: any; 
+  yLine: any; 
 
   private WIDTH        = 640;
   private HEIGHT       = 350;
@@ -63,7 +66,6 @@ export class GraphComponent implements OnInit, OnChanges {
       this.update2(data, this.value2);
     });
     this.sensorDataService.getGraphData(this.dataType.humidity.slug, this.selectedStation).subscribe(data => {
-      console.log(data);
       this.humidityG = data;
       this.update3(data, this.value3);
     });
@@ -76,8 +78,6 @@ export class GraphComponent implements OnInit, OnChanges {
       this.update7(data, this.value7);
     });  
     this.sensorDataService.getGraphData(this.dataType.pm25amountconc.slug, this.selectedStation).subscribe(data => {
-      console.log(data);
-      
       this.pm25amountconc = data;
     });
     this.sensorDataService.getGraphData(this.dataType.pm10amountconc.slug, this.selectedStation).subscribe(data => {
@@ -311,11 +311,74 @@ export class GraphComponent implements OnInit, OnChanges {
     // .text((d: { Framework: any; }) => d.Framework)
     // .attr("x", (d: { Released: d3.NumberValue; }) => x(d.Released))
     // .attr("y", (d: { Stars: d3.NumberValue; }) => y(d.Stars))
-    
-     
 
     
+
+
+  //vertikale Linie
+  this.xLine = this.svg1.append("line")
+   .attr("opacity", 0)
+   .attr("y1", 0)
+   .attr("y2", this.INNER_HEIGHT)
+   .style("stroke-dasharray", "3")
+   .attr("stroke", "white")
+   .attr("stroke-width", 1)
+   .attr("pointer-events", "none");
+
+  //horizontale Linie
+  this.yLine = this.svg1.append("line")
+   .attr("opacity", 0)
+   .attr("x1", 0)
+   .attr("x2", this.INNER_WIDTH)
+   .attr("stroke", "white")
+   .style("stroke-dasharray", "3")
+   .attr("stroke-width", 1)
+   .attr("pointer-events", "none");
+
+   this.Tooltip1 = d3.selectAll("div#scatter1")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("position","absolute")
+    .style("font", "15px sans-serif")
+    .style("background", "#181b1f")
+    .style("border", "solid")
+    .style("border-width", this.WIDTH)
+    .style("border-radius", "2px")
+    .style("padding", "5px")
+    
+    // this.mousemove = (event:any,d:any) => {
+    //   if (event.target.nodeName === 'circle') {
+    //     const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
+    //     const mouse = d3.pointer(event)
+    //     const mousex = mouse[0];
+    //     const mousey = mouse[1]; 
+    //     xLine.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
+    //     yLine.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
+    //     this.Tooltip1
+    //       .html("Datum: " + formatTime(d.time)+`<br>${d.name}: ` + Math.round(d.data*100.0)/100+ `${d.unit}`)
+    //       .style("left", (event.pageX +10) + "px")             
+    //       .style("top", (event.pageY - 60) + "px")
+    //       .style("opacity", 1);
+    //   }
+    // }    
+      
+   
+    // this.mouseleave = (event:any,d:any) => {
+    //   console.log('leave');
+      
+    //   const mouse = d3.pointer(event)
+    //   const mousex = mouse[0];
+    //   const mousey = mouse[1]; 
+    //   this.xLine.attr("x1", mousex).attr("x2",mousex).attr("opacity", 0);
+    //   this.yLine.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
+    //   this.Tooltip1
+    //   .style("opacity", 0);
+    // }   
+
+   
   }
+
   private drawLineChart2(): void {
     this.x2 = d3.scaleTime().range([ 0, this.INNER_WIDTH ]);
     this.y2 = d3.scaleLinear().range([ this.INNER_HEIGHT, 0]);
@@ -504,6 +567,18 @@ export class GraphComponent implements OnInit, OnChanges {
     // Create a update selection: bind to the new data
     let line1 = this.svg1.selectAll(".line")
       .data([data.dataArray], function(d: any){ return d.data });
+
+      // const length = line1.node().getTotalLength();
+  
+      // //animation
+      // // d3.select("#startLine").on("click", function() {
+      //   line1
+      //         .attr("stroke-dasharray", length + " " + length)
+      //         .attr("stroke-dashoffset", length)
+      //         .transition()
+      //           .duration(1000)
+      //           .ease(d3.easeLinear)
+      //     .attr("stroke-dashoffset", 0)
   
     // Updata the line
     line1.enter()
@@ -519,113 +594,36 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("stroke", "white")
       .attr("stroke-width", 1.5);
 
-      //   const xyLine = this.svg1.append("rect")
-      //   .attr("x", 0)
-      //   .attr("y", 0)
-      //   .attr("width", this.WIDTH)
-      //   .attr("height", this.HEIGHT)
-      //   .attr("fill", "white")
-      //   .style("opacity", 0);
-  
-   
-      // //vertikale Linie
-      // const xLine = this.svg1.append("line")
-      //  .attr("opacity", 0)
-      //  .attr("y1", 0)
-      //  .attr("y2", this.INNER_HEIGHT)
-      //  .style("stroke-dasharray", "3")
-      //  .attr("stroke", "white")
-      //  .attr("stroke-width", 1)
-      //  .attr("pointer-events", "none");
-  
-      // //horizontale Linie
-      // const yLine = this.svg1.append("line")
-      //  .attr("opacity", 0)
-      //  .attr("x1", 0)
-      //  .attr("x2", this.INNER_WIDTH)
-      //  .attr("stroke", "white")
-      //  .style("stroke-dasharray", "3")
-      //  .attr("stroke-width", 1)
-      //  .attr("pointer-events", "none");
-  
-  
-      // // const path = this.svg1
-      // //   .append("path")
-      // //   .attr("d", this.line1(data.dataArray))
-      // //   .attr("fill", "none")
-      // //   .attr("stroke", "rgb(115, 191, 105)")
-      // //   .attr("stroke-width", 1.5)
-        
-      // //berechnen der Länge 
-      // // const length = path.node().getTotalLength();
-  
-      // //animation
-      // // d3.select("#startLine").on("click", function() {
-      // //   path
-      // //         .attr("stroke-dasharray", length + " " + length)
-      // //         .attr("stroke-dashoffset", length)
-      // //         .transition()
-      // //           .duration(5000)
-      // //           .ease(d3.easeLinear)
-      // //           .attr("stroke-dashoffset", 0)
-      // // })
-          
-  
-     
-      //   const Tooltip = d3.selectAll("div#scatter1")
-      //   .append("div")
-      //   .style("opacity", 0)
-      //   .attr("class", "tooltip")
-      //   .style("position","absolute")
-      //   .style("font", "15px sans-serif")
-      //   .style("background", "#181b1f")
-      //   .style("border", "solid")
-      //   .style("border-width", this.WIDTH)
-      //   .style("border-radius", "2px")
-      //   .style("padding", "5px")
-  
-  
-      //   // const mouseover = function(event:any,d:any) {
-      //   //   console.log(event.target.nodeName)
-      //   //   console.log('over')
-      //   //   // const mouse = d3.pointer(event);
-      //   //   // const mousex = mouse[0];
-      //   //   // const mousey = mouse[1]; 
-      //   //   // xLine.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
-      //   //   // yLine.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-      //   //   // Tooltip
-      //   //   //   .style("opacity", 1)
-            
-      //   // }
-  
-      //   const mousemove = function(event:any,d:any) {
-      //     if (event.target.nodeName === 'circle') {
-      //       const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
-      //       const mouse = d3.pointer(event)
-      //       const mousex = mouse[0];
-      //       const mousey = mouse[1]; 
-      //       xLine.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
-      //       yLine.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-      //       Tooltip
-      //         .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
-      //         .style("left", (event.pageX +10) + "px")             
-      //         .style("top", (event.pageY - 60) + "px")
-      //         .style("opacity", 1);
-      //     }
-      //   }    
-          
        
-      //   const mouseleave = function(event:any,d:any) {
-      //     console.log('leave');
-          
-      //     const mouse = d3.pointer(event)
-      //     const mousex = mouse[0];
-      //     const mousey = mouse[1]; 
-      //     xLine.attr("x1", mousex).attr("x2",mousex).attr("opacity", 0);
-      //     yLine.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
-      //     Tooltip
-      //     .style("opacity", 0);
-      //   }   
+  
+  
+      // const path = this.svg1
+      //   .append("path")
+      //   .attr("d", this.line1(data.dataArray))
+      //   .attr("fill", "none")
+      //   .attr("stroke", "rgb(115, 191, 105)")
+      //   .attr("stroke-width", 1.5)
+        
+      //berechnen der Länge 
+     
+     
+        
+  
+  
+        // const mouseover = function(event:any,d:any) {
+        //   console.log(event.target.nodeName)
+        //   console.log('over')
+        //   // const mouse = d3.pointer(event);
+        //   // const mousex = mouse[0];
+        //   // const mousey = mouse[1]; 
+        //   // xLine.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
+        //   // yLine.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
+        //   // Tooltip
+        //   //   .style("opacity", 1)
+            
+        // }
+  
+        
         
       //  let dots = this.svg1.selectAll(".dot")
       //     .data(data.dataArray);
@@ -646,7 +644,103 @@ export class GraphComponent implements OnInit, OnChanges {
 
       //  xyLine
       //  .on("mousemove", mousemove)
-      // //  .on("mouseleave", mouseleave);
+      //  .on("mouseleave", mouseleave);
+
+    // this.svg1.selectAll(".dot")
+    //   .data(data.dataArray)
+    //   // .enter().append("circle")
+    //   .attr("class","dot")
+    //    .transition()
+    //    .duration(1000)
+    //   .attr("r", 3.5)
+    //   .attr("cx", (d: { time: d3.NumberValue; }) => this.x1(d.time))
+    //   .attr("cy", (d: { data: d3.NumberValue; }) => this.y1(d.data))
+    //   .style("opacity", 0.5)
+    //   .style("fill", "#69b3a2")
+
+      // .on("mouseleave", (event:any,d:any) => {
+      //   console.log('leave');
+        
+      //   const mouse = d3.pointer(event)
+      //   const mousex = mouse[0];
+      //   const mousey = mouse[1]; 
+      //   // xLine.attr("x1", mousex).attr("x2",mousex).attr("opacity", 0);
+      //   // yLine.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
+      //   this.Tooltip1
+      //   .style("opacity", 0);
+      // })
+      // .on("mousemove", (event:any,d:any) => {
+      //   if (event.target.nodeName === 'circle') {
+      //     const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
+      //     const mouse = d3.pointer(event)
+      //     const mousex = mouse[0];
+      //     const mousey = mouse[1]; 
+      //     /
+
+      let dots = this.svg1.selectAll(".dot")
+      .data(data.dataArray)
+
+      dots
+      .enter().append("circle")
+      .attr("class","dot")
+      .merge(dots)
+      .attr("r", 4)
+      .attr("cx", (d: any) => this.x1(d.time))
+      .attr("cy", (d: any) => this.y1(d.data))
+      .style("opacity", 0)
+      .style("fill", "#69b3a2")
+      .on("mousemove", (event:any,d:any) => {
+          const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
+          const mouse = d3.pointer(event);
+          const mousex = mouse[0];
+          const mousey = mouse[1];
+          this.xLine.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
+          this.yLine.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
+          this.Tooltip1
+            .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
+            .style("left", (event.pageX +10) + "px")             
+            .style("top", (event.pageY - 60) + "px")
+            .style("opacity", 1)
+            
+        })
+        .on("mouseout", (d: any, event: any) => {
+          const mouse = d3.pointer(event);
+          const mousex = mouse[0];
+          const mousey = mouse[1]; 
+          this.xLine.attr("x1", mousex).attr("x2",mousex).attr("opacity", 0);
+          this.yLine.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
+          this.Tooltip1.style("opacity", 0);
+      });
+
+      dots.exit().remove();
+
+      // const xyLine = this.svg1.append("rect")
+      //   .attr("x", 0)
+      //   .attr("y", 0)
+      //   .attr("width", this.WIDTH)
+      //   .attr("height", this.HEIGHT)
+      //   .attr("fill", "white")
+      //   .style("opacity", 0);
+  
+      //  xyLine
+      //    .on("mousemove", (event:any,d:any) => {
+      //     //  console.log(event);
+           
+      //       if (event.target.nodeName === 'circle') {
+      //         const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
+      //         const mouse = d3.pointer(event)
+      //         const mousex = mouse[0];
+      //         const mousey = mouse[1]; 
+      //         this.xLine.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
+      //         this.yLine.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
+      //         this.Tooltip1
+      //           .html("Datum: " + formatTime(d.time)+`<br>${d.name}: ` + Math.round(d.data*100.0)/100+ `${d.unit}`)
+      //           .style("left", (event.pageX +10) + "px")             
+      //           .style("top", (event.pageY - 60) + "px")
+      //           .style("opacity", 1);
+      //       }
+      //     } )
+        //  .on("mouseout", this.mouseleave);
   }
 
   public update2(data: GraphDataApi, value: number) {

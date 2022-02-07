@@ -42,4 +42,3 @@ export interface GraphDataApi {
     unit?: string;
     dataArray: GraphData[];
 }
-

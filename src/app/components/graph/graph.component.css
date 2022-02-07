@@ -15,6 +15,7 @@
     text-align: center;
     /* flex: 47%; */
     /* flex: 49%; */
+    cursor: pointer;
 }
 
 mat-slider {

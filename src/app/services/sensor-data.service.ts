@@ -23,6 +23,7 @@ export class SensorDataService {
   getAverageData(type: string, stationID: number): Observable<AverageData> {
     return this.http.get<any>(baseUrl + type +`/${ stationID }/mean`).pipe(
       map((averageData) => { 
+        console.log(averageData);
         return new AverageData(averageData[0].mean, averageData[0].name, averageData[0].unit, averageData[0].time);
       })
     )
@@ -31,6 +32,7 @@ export class SensorDataService {
   getGraphData(type: string, stationID: number): Observable<GraphDataApi> {
     return this.http.get<GraphDataApi>(baseUrl + type + `/${ stationID }`).pipe(
       map((data: GraphDataApi) => {
+        console.log(data);
         return {
           name: data.name, 
           unit: data.unit, 
