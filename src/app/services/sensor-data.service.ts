@@ -13,9 +13,13 @@ export class SensorDataService {
 
    //methods for calling API
   getStations(): Observable<Station[]> {
+    let stationsArray: Station[] = [];   
     return this.http.get<any>(baseUrl + 'stations').pipe(
-      map((station) => {
-        return station;
+      map((stations) => {
+        stations.result.map((station: any) => {
+          stationsArray.push(new Station(station.name, station.data));
+        })
+        return stationsArray;
       })
     )
   }

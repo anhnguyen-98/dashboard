@@ -15,7 +15,7 @@
         <div class="content">
             <div id="scatter1"></div>
         </div>
-         <mat-slider
+            <mat-slider
             [max]="max"
             [min]="min"
             [step]="step"
@@ -40,19 +40,19 @@
         </mat-slider>
     </div>
     <div class="chart">
-        <div class="header">
-            Luftfeuchtigkeit
-        </div>
-        <div class="content">
-            <div id="scatter3"></div>
-        </div>
-        <mat-slider
-            [max]="max"
-            [min]="min"
-            [step]="step"
-            [(ngModel)]="value3"
-            (input)="onChange3($event)">
-        </mat-slider>
+            <div class="header">
+                Luftfeuchtigkeit
+            </div>
+            <div class="content">
+                <div id="scatter3"></div>
+            </div>
+            <mat-slider
+                [max]="max"
+                [min]="min"
+                [step]="step"
+                [(ngModel)]="value3"
+                (input)="onChange3($event)">
+            </mat-slider>
     </div>
     <div class="chart">
         <div class="header">

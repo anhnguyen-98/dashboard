@@ -62,7 +62,8 @@ export class BaseLayoutComponent implements OnInit {
   constructor(private sensorDataService: SensorDataService) { }
 
   ngOnInit(): void {
-    this.sensorDataService.getStation().subscribe(station => {
+    this.sensorDataService.getStations().subscribe(station => {
+      console.log(station);
       this.stations = station; 
       this.selectedStation = station[0].id;
     });
