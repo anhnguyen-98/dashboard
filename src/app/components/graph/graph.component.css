@@ -12,14 +12,13 @@
     border-radius: 3px;
     background-color: #181b1f;
     margin: 0.3%;
-    text-align: center;
     /* flex: 47%; */
     /* flex: 49%; */
     cursor: pointer;
 }
-
 mat-slider {
-    margin-top: -20px;
+    margin-top: -40px;
+    margin-left: 25%;
 }
 
 /* @media (max-width: 1268px) {
@@ -27,7 +26,7 @@ mat-slider {
         min-width: 49%;
     }
 } */
-@media (max-width: 1018px) {
+@media (max-width: 1250px) {
     .chart {
         min-width: 99%;
     }
@@ -57,11 +56,14 @@ mat-slider {
 
 #scatter1, #scatter2, #scatter3, #scatter4 ,#scatter5 ,#scatter6, #scatter7 {
     margin: 15px;
+    margin-bottom: 0;
+    /* position: relative; */
 }
 
 .header {
     color: white;
     padding-top: 5px;
+    text-align: center;
 }
 
 ::ng-deep .axis-grid line {

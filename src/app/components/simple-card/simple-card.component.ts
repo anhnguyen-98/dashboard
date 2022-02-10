@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AverageData } from 'src/app/models/sensor-data.models';
 import { SensorDataService } from 'src/app/services/sensor-data.service';
 
