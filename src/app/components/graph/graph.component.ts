@@ -578,21 +578,21 @@ export class GraphComponent implements OnInit, OnChanges {
 
     this.svg5.append("text")
       .text("PM2.5")
-      .style("font-size", "10px")
+      .style("font-size", "12px")
       .attr("class", "unitt")
       .style("fill", "white")
       .style("text-anchor", "middle")
-      .attr("x", this.INNER_WIDTH*2/3)
+      .attr("x", this.INNER_WIDTH*2.1/3)
       .attr("y", this.HEIGHT);
     this.svg5.append("circle")
-      .attr("cx",this.INNER_WIDTH*2/3 - 23)
-      .attr("cy",this.HEIGHT - 3)
+      .attr("cx",this.INNER_WIDTH*2.1/3 - 24)
+      .attr("cy",this.HEIGHT - 4)
       .attr("r", 3)
       .style("fill", "#73bf69")
 
     this.svg5.append("text")
       .text("PM10")
-      .style("font-size", "10px")
+      .style("font-size", "12px")
       .attr("class", "unitt")
       .style("fill", "white")
       .style("text-anchor", "middle")
@@ -600,7 +600,7 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("y", this.HEIGHT);
     this.svg5.append("circle")
       .attr("cx",this.INNER_WIDTH*4.7/6 - 23)
-      .attr("cy",this.HEIGHT - 3)
+      .attr("cy",this.HEIGHT - 4)
       .attr("r", 3)
       .style("fill", "white")
   }
@@ -662,21 +662,21 @@ export class GraphComponent implements OnInit, OnChanges {
 
     this.svg6.append("text")
        .text("PM2.5")
-       .style("font-size", "10px")
+       .style("font-size", "12px")
        .attr("class", "unitt")
        .style("fill", "white")
        .style("text-anchor", "middle")
-       .attr("x", this.INNER_WIDTH*2/3)
+       .attr("x", this.INNER_WIDTH*2.1/3)
        .attr("y", this.HEIGHT);
      this.svg6.append("circle")
-       .attr("cx",this.INNER_WIDTH*2/3 - 23)
-       .attr("cy",this.HEIGHT - 3)
+       .attr("cx",this.INNER_WIDTH*2.1/3 - 24)
+       .attr("cy",this.HEIGHT - 4)
        .attr("r", 3)
        .style("fill", "#73bf69")
  
      this.svg6.append("text")
        .text("PM10")
-       .style("font-size", "10px")
+       .style("font-size", "12px")
        .attr("class", "unitt")
        .style("fill", "white")
        .style("text-anchor", "middle")
@@ -684,7 +684,7 @@ export class GraphComponent implements OnInit, OnChanges {
        .attr("y", this.HEIGHT);
      this.svg6.append("circle")
        .attr("cx",this.INNER_WIDTH*4.7/6 - 23)
-       .attr("cy",this.HEIGHT - 3)
+       .attr("cy",this.HEIGHT - 4)
        .attr("r", 3)
        .style("fill", "white")
   }
@@ -821,7 +821,7 @@ export class GraphComponent implements OnInit, OnChanges {
           const mousey = mouse[1];
           this.xLine1.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
           this.yLine1.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-          if (mousex > 400) {
+          if (mousex > 500) {
             this.Tooltip1
               .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
               .style("right", (window.innerWidth - event.pageX) + "px")  
@@ -901,7 +901,7 @@ export class GraphComponent implements OnInit, OnChanges {
         const mousey = mouse[1];
         this.xLine2.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
         this.yLine2.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-        if (mousex > 400) {
+        if (mousex > 500) {
           this.Tooltip2
             .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
             .style("right", (window.innerWidth - event.pageX) + "px")  
@@ -981,7 +981,7 @@ export class GraphComponent implements OnInit, OnChanges {
           .style("left", (event.pageX +10) + "px")             
           .style("top", (event.pageY - 60) + "px")
           .style("opacity", 1);
-          if (mousex > 400) {
+          if (mousex > 500) {
             this.Tooltip3
               .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
               .style("right", (window.innerWidth - event.pageX) + "px")  
@@ -1055,7 +1055,7 @@ export class GraphComponent implements OnInit, OnChanges {
           const mousey = mouse[1];
           this.xLine4.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
           this.yLine4.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-          if (mousex > 400) {
+          if (mousex > 500) {
             this.Tooltip4
               .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
               .style("right", (window.innerWidth - event.pageX) + "px")  
@@ -1144,7 +1144,7 @@ export class GraphComponent implements OnInit, OnChanges {
           const mousey = mouse[1];
           this.xLine5.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
           this.yLine5.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-          if (mousex > 400) {
+          if (mousex > 500) {
           this.Tooltip5
             .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ `${data1.unit}`)
             .style("right", (window.innerWidth - event.pageX) + "px")  
@@ -1190,7 +1190,7 @@ export class GraphComponent implements OnInit, OnChanges {
         const mousey = mouse[1];
         this.xLine5.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
         this.yLine5.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-        if (mousex > 400) {
+        if (mousex > 500) {
           this.Tooltip5
             .html("Datum: " + formatTime(d.time)+`<br>${data2.name}: ` + Math.round(d.data*100.0)/100+ `${data2.unit}`)
             .style("right", (window.innerWidth - event.pageX) + "px")  
@@ -1283,7 +1283,7 @@ export class GraphComponent implements OnInit, OnChanges {
           const mousey = mouse[1];
           this.xLine6.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
           this.yLine6.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-          if (mousex > 400) {
+          if (mousex > 500) {
             this.Tooltip6
               .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ `${data1.unit}`)
               .style("right", (window.innerWidth - event.pageX) + "px")  
@@ -1330,7 +1330,7 @@ export class GraphComponent implements OnInit, OnChanges {
         const mousey = mouse[1];
         this.xLine6.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
         this.yLine6.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-        if (mousex > 400) {
+        if (mousex > 500) {
           this.Tooltip6
             .html("Datum: " + formatTime(d.time)+`<br>${data2.name}: ` + Math.round(d.data*100.0)/100+ `${data2.unit}`)
             .style("right", (window.innerWidth - event.pageX) + "px")  
@@ -1403,7 +1403,7 @@ export class GraphComponent implements OnInit, OnChanges {
           const mousey = mouse[1];
           this.xLine7.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
           this.yLine7.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-          if (mousex > 400) {
+          if (mousex > 500) {
             this.Tooltip7
               .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
               .style("right", (window.innerWidth - event.pageX) + "px")  
