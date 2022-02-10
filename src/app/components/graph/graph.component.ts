@@ -763,8 +763,6 @@ export class GraphComponent implements OnInit, OnChanges {
     let line1 = this.svg1.selectAll(".line")
       .data([data.dataArray], function(d: any){ return d.data });
 
-     
-  
     // Updata the line
     line1.enter()
       .append("path")
@@ -778,30 +776,6 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("fill", "none")
       .attr("stroke", "white")
       .attr("stroke-width", 1.5);
-
-       
-  
-  
-      // const path = this.svg1
-      //   .append("path")
-      //   .attr("d", this.line1(data.dataArray))
-      //   .attr("fill", "none")
-      //   .attr("stroke", "rgb(115, 191, 105)")
-      //   .attr("stroke-width", 1.5)
-        
-      //berechnen der Länge 
-       // const length = line1.node().getTotalLength();
-  
-      // //animation
-      // // d3.select("#startLine").on("click", function() {
-      //   line1
-      //         .attr("stroke-dasharray", length + " " + length)
-      //         .attr("stroke-dashoffset", length)
-      //         .transition()
-      //           .duration(1000)
-      //           .ease(d3.easeLinear)
-      //     .attr("stroke-dashoffset", 0)
-     
       let dots = this.svg1.selectAll(".dot")
       .data(data.dataArray)
 
@@ -823,14 +797,14 @@ export class GraphComponent implements OnInit, OnChanges {
           this.yLine1.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
           if (mousex > 500) {
             this.Tooltip1
-              .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
+              .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
               .style("right", (window.innerWidth - event.pageX) + "px")  
               .style("left", "auto")       
               .style("top", (event.pageY - 60) + "px")
               .style("opacity", 1)
           } else {
             this.Tooltip1
-            .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
+            .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
             .style("left", (event.pageX + 10) + "px")       
             .style("right", "auto")        
             .style("top", (event.pageY - 60) + "px")
@@ -903,14 +877,14 @@ export class GraphComponent implements OnInit, OnChanges {
         this.yLine2.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
         if (mousex > 500) {
           this.Tooltip2
-            .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
+            .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
             .style("right", (window.innerWidth - event.pageX) + "px")  
             .style("left", "auto")       
             .style("top", (event.pageY - 60) + "px")
             .style("opacity", 1)
         } else {
           this.Tooltip2
-          .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
+          .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
           .style("left", (event.pageX + 10) + "px")       
           .style("right", "auto")        
           .style("top", (event.pageY - 60) + "px")
@@ -983,14 +957,14 @@ export class GraphComponent implements OnInit, OnChanges {
           .style("opacity", 1);
           if (mousex > 500) {
             this.Tooltip3
-              .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
+              .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
               .style("right", (window.innerWidth - event.pageX) + "px")  
               .style("left", "auto")       
               .style("top", (event.pageY - 60) + "px")
               .style("opacity", 1)
           } else {
             this.Tooltip3
-            .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
+            .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
             .style("left", (event.pageX + 10) + "px")       
             .style("right", "auto")        
             .style("top", (event.pageY - 60) + "px")
@@ -1057,14 +1031,14 @@ export class GraphComponent implements OnInit, OnChanges {
           this.yLine4.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
           if (mousex > 500) {
             this.Tooltip4
-              .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
+              .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
               .style("right", (window.innerWidth - event.pageX) + "px")  
               .style("left", "auto")       
               .style("top", (event.pageY - 60) + "px")
               .style("opacity", 1)
           } else {
             this.Tooltip4
-            .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
+            .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
             .style("left", (event.pageX + 10) + "px")       
             .style("right", "auto")        
             .style("top", (event.pageY - 60) + "px")
@@ -1146,14 +1120,14 @@ export class GraphComponent implements OnInit, OnChanges {
           this.yLine5.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
           if (mousex > 500) {
           this.Tooltip5
-            .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ `${data1.unit}`)
+            .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ ` ${data1.unit}`)
             .style("right", (window.innerWidth - event.pageX) + "px")  
             .style("left", "auto")       
             .style("top", (event.pageY - 60) + "px")
             .style("opacity", 1)
           } else {
             this.Tooltip5
-            .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ `${data1.unit}`)
+            .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ ` ${data1.unit}`)
             .style("left", (event.pageX + 10) + "px")       
             .style("right", "auto")        
             .style("top", (event.pageY - 60) + "px")
@@ -1192,14 +1166,14 @@ export class GraphComponent implements OnInit, OnChanges {
         this.yLine5.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
         if (mousex > 500) {
           this.Tooltip5
-            .html("Datum: " + formatTime(d.time)+`<br>${data2.name}: ` + Math.round(d.data*100.0)/100+ `${data2.unit}`)
+            .html("Datum: " + formatTime(d.time)+`<br>${data2.name}: ` + Math.round(d.data*100.0)/100+ ` ${data2.unit}`)
             .style("right", (window.innerWidth - event.pageX) + "px")  
             .style("left", "auto")       
             .style("top", (event.pageY - 60) + "px")
             .style("opacity", 1)
         } else {
           this.Tooltip5
-          .html("Datum: " + formatTime(d.time)+`<br>${data2.name}: ` + Math.round(d.data*100.0)/100+ `${data2.unit}`)
+          .html("Datum: " + formatTime(d.time)+`<br>${data2.name}: ` + Math.round(d.data*100.0)/100+ ` ${data2.unit}`)
           .style("left", (event.pageX + 10) + "px")       
           .style("right", "auto")        
           .style("top", (event.pageY - 60) + "px")
@@ -1285,14 +1259,14 @@ export class GraphComponent implements OnInit, OnChanges {
           this.yLine6.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
           if (mousex > 500) {
             this.Tooltip6
-              .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ `${data1.unit}`)
+              .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ ` ${data1.unit}`)
               .style("right", (window.innerWidth - event.pageX) + "px")  
               .style("left", "auto")       
               .style("top", (event.pageY - 60) + "px")
               .style("opacity", 1)
           } else {
             this.Tooltip6
-            .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ `${data1.unit}`)
+            .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ ` ${data1.unit}`)
             .style("left", (event.pageX + 10) + "px")       
             .style("right", "auto")        
             .style("top", (event.pageY - 60) + "px")
@@ -1332,14 +1306,14 @@ export class GraphComponent implements OnInit, OnChanges {
         this.yLine6.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
         if (mousex > 500) {
           this.Tooltip6
-            .html("Datum: " + formatTime(d.time)+`<br>${data2.name}: ` + Math.round(d.data*100.0)/100+ `${data2.unit}`)
+            .html("Datum: " + formatTime(d.time)+`<br>${data2.name}: ` + Math.round(d.data*100.0)/100+ ` ${data2.unit}`)
             .style("right", (window.innerWidth - event.pageX) + "px")  
             .style("left", "auto")       
             .style("top", (event.pageY - 60) + "px")
             .style("opacity", 1)
         } else {
           this.Tooltip6
-          .html("Datum: " + formatTime(d.time)+`<br>${data2.name}: ` + Math.round(d.data*100.0)/100+ `${data2.unit}`)
+          .html("Datum: " + formatTime(d.time)+`<br>${data2.name}: ` + Math.round(d.data*100.0)/100+ ` ${data2.unit}`)
           .style("left", (event.pageX + 10) + "px")       
           .style("right", "auto")        
           .style("top", (event.pageY - 60) + "px")
@@ -1405,14 +1379,14 @@ export class GraphComponent implements OnInit, OnChanges {
           this.yLine7.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
           if (mousex > 500) {
             this.Tooltip7
-              .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
+              .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
               .style("right", (window.innerWidth - event.pageX) + "px")  
               .style("left", "auto")       
               .style("top", (event.pageY - 60) + "px")
               .style("opacity", 1)
           } else {
             this.Tooltip7
-            .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ `${data.unit}`)
+            .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
             .style("left", (event.pageX + 10) + "px")       
             .style("right", "auto")        
             .style("top", (event.pageY - 60) + "px")
