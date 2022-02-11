@@ -18,7 +18,6 @@ export class GraphComponent implements OnInit, OnChanges {
   humidityG!: GraphDataApi;
   brightG!: GraphDataApi;
   pressureG!: GraphDataApi;
-
   pm25conc!: GraphDataApi;
   pm10conc!: GraphDataApi;
   pm25amountconc!: GraphDataApi;
@@ -28,18 +27,14 @@ export class GraphComponent implements OnInit, OnChanges {
   min = 1;
   showTicks = false;
   step = 1;
-  thumbLabel = false;
   value1 = 10; value2 = 10;  value3 = 10;  value4 = 10;  value5 = 10;  value6 = 10;  value7 = 10;
 
-  private svg1 : any; svg2 : any; svg3 : any; svg4 : any; svg5 : any; svg6 : any; svg7 : any;
+  svg1 : any; svg2 : any; svg3 : any; svg4 : any; svg5 : any; svg6 : any; svg7 : any;
   y1!: any; y2!: any; y3!: any; y4!: any; y5!: any; y6!: any; y7!: any;
   x1!: any; x2!: any; x3!: any; x4!: any; x5!: any; x6!: any; x7!: any;
   xAxisGrid1: any; xAxisGrid2: any; xAxisGrid3: any; xAxisGrid4: any; xAxisGrid5: any; xAxisGrid6: any; xAxisGrid7: any;
   yAxisGrid1: any; yAxisGrid2: any; yAxisGrid3: any; yAxisGrid4: any; yAxisGrid5: any; yAxisGrid6: any; yAxisGrid7: any;
-  line1: any; line2: any; line3: any; line4: any; line5: any; line6: any; line7: any;
-  // dots1: any; 
   Tooltip1: any; Tooltip2: any; Tooltip3: any; Tooltip4: any; Tooltip5: any; Tooltip6: any; Tooltip7: any; 
-  // line2: any; line3: any; line4: any; line5: any; line6: any; line7: any;
   xLine1: any; xLine2: any; xLine3: any; xLine4: any; xLine5: any; xLine6: any; xLine7: any; 
   yLine1: any; yLine2: any; yLine3: any; yLine4: any; yLine5: any; yLine6: any; yLine7: any; 
 
@@ -48,10 +43,9 @@ export class GraphComponent implements OnInit, OnChanges {
   private MARGIN       = { top: 0, right: 20, bottom: 50, left: 40 };
   private INNER_WIDTH  = this.WIDTH - this.MARGIN.left - this.MARGIN.right;
   private INNER_HEIGHT = this.HEIGHT - this.MARGIN.top - this.MARGIN.bottom;
-  // private colors = ['#008080', '#125EB3', '#5C9DE6', '#8D3B23', '#B31E12']
 
   constructor(private sensorDataService: SensorDataService) { }
- 
+
   ngOnChanges(): void {
     this.callingAPI();
   }
@@ -224,16 +218,8 @@ export class GraphComponent implements OnInit, OnChanges {
   }
 
   private drawLineChart1(): void {
-    // Add X axis
-    this.x1 = d3.scaleTime()
-      // .domain(d3.extent(this.pressureData, d => new Date(d.time)) as [Date, Date])
-      .range([ 0, this.INNER_WIDTH ])
-      // .ticks(12);
-
-    // Add Y axis
-    this.y1 = d3.scaleLinear()
-      // .domain([d3.min(this.pressureData, d => d.data) as number - 10, d3.max(this.pressureData, d => d.data) as number + 10])
-      .range([ this.INNER_HEIGHT, 0]);
+    this.x1 = d3.scaleTime().range([ 0, this.INNER_WIDTH ]);
+    this.y1 = d3.scaleLinear().range([ this.INNER_HEIGHT, 0]);
     this.svg1.append("text")
       .attr("transform", "rotate(-90)")
       .attr("class", "unit")
@@ -241,50 +227,17 @@ export class GraphComponent implements OnInit, OnChanges {
       .style("text-anchor", "middle")
       .attr("x", -160)
       .attr("y", -30);
-    // this.svg.append("g")
-    // .attr("transform", "translate(0," + this.INNER_HEIGHT + ")")
-    // .call(d3.axisBottom(x).ticks(10));
-
-    // this.svg.append("text")
-    // .style("text-anchor", "middle")
-    // .attr("x", this.INNER_WIDTH/2)
-    // .attr("y", this.INNER_HEIGHT + 35)
-    // .text("X axis title");
-
-    // this.svg1.append("text")
-    //   .attr("transform", "rotate(-90)")
-    //   // .style("stroke", "rgb(115, 191, 105)")
-    //   .style("fill", "white")
-    //   .style("text-anchor", "middle")
-    //   .attr("x", -this.INNER_WIDTH/3)
-    //   .attr("y", -30)
-    // .text(`${this.pressureData[0].units}`);
-
-    // this.svg.append("g")
-    // .call(d3.axisLeft(y));
-
     this.xAxisGrid1 = d3.axisBottom(this.x1)
       .tickSize(-this.INNER_HEIGHT)
-      // .tickFormat('')
       .ticks(d3.timeHour.every(2));
-
     this.yAxisGrid1 = d3.axisLeft(this.y1)
       .tickSize(-this.INNER_WIDTH)
-      // .tickFormat('')
       .ticks(9);
-
     this.svg1.append("g")
       .attr("class", "axis-grid1")
       .attr("transform", "translate(0," + this.INNER_HEIGHT + ")")
-
     this.svg1.append('g')
       .attr('class', 'axis-grid2')
-
-    this.line1 = d3.line<any>()
-      .x( (d: any) => this.x1(d.time))
-      .y((d: any) =>  this.y1(d.data))
-      .curve(d3.curveLinear);
-    
     this.xLine1 = this.svg1.append("line")
       .attr("opacity", 0)
       .attr("y1", 0)
@@ -293,7 +246,6 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("stroke", "white")
       .attr("stroke-width", 1)
       .attr("pointer-events", "none");
-
     this.yLine1 = this.svg1.append("line")
       .attr("opacity", 0)
       .attr("x1", 0)
@@ -302,7 +254,6 @@ export class GraphComponent implements OnInit, OnChanges {
       .style("stroke-dasharray", "3")
       .attr("stroke-width", 1)
       .attr("pointer-events", "none");
-
     this.Tooltip1 = d3.selectAll("div#scatter1")
       .append("div")
       .style("opacity", 0)
@@ -329,62 +280,41 @@ export class GraphComponent implements OnInit, OnChanges {
     this.xAxisGrid2 = d3.axisBottom(this.x2)
       .tickSize(-this.INNER_HEIGHT)
       .ticks(d3.timeHour.every(2));
-
     this.yAxisGrid2 = d3.axisLeft(this.y2)
       .tickSize(-this.INNER_WIDTH)
       .ticks(9);
-
     this.svg2.append("g")
       .attr("class", "axis-grid1")
-      .attr("transform", "translate(0," + this.INNER_HEIGHT + ")")
-      // .call(this.xAxisGrid2)
-
+      .attr("transform", "translate(0," + this.INNER_HEIGHT + ")");
     this.svg2.append('g')
-      .attr('class', 'axis-grid2')
-      // .call(this.yAxisGrid2);
-
-    this.line2 = d3.line<any>()
-      .x( (d: any) => this.x2(d.time))
-      .y((d: any) =>  this.y2(d.data))
-      .curve(d3.curveLinear);
-
-    // this.svg2
-    //   .append("path")
-    //   .attr("fill", "none")
-    //   .attr("stroke", "white")
-    //   .attr("stroke-width", 1.5)
-    //   .attr("d", this.line2(this.pmData));
-  this.xLine2 = this.svg2.append("line")
-   .attr("opacity", 0)
-   .attr("y1", 0)
-   .attr("y2", this.INNER_HEIGHT)
-   .style("stroke-dasharray", "3")
-   .attr("stroke", "white")
-   .attr("stroke-width", 1)
-   .attr("pointer-events", "none");
-
-  //horizontale Linie
-  this.yLine2 = this.svg2.append("line")
-   .attr("opacity", 0)
-   .attr("x1", 0)
-   .attr("x2", this.INNER_WIDTH)
-   .attr("stroke", "white")
-   .style("stroke-dasharray", "3")
-   .attr("stroke-width", 1)
-   .attr("pointer-events", "none");
-
-  this.Tooltip2 = d3.selectAll("div#scatter2")
-    .append("div")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("position","absolute")
-    .style("font", "15px sans-serif")
-    .style("background", "#181b1f")
-    .style("border", "solid")
-    .style("border-width", this.WIDTH)
-    .style("border-radius", "2px")
-    .style("padding", "5px");
-  
+      .attr('class', 'axis-grid2');
+    this.xLine2 = this.svg2.append("line")
+      .attr("opacity", 0)
+      .attr("y1", 0)
+      .attr("y2", this.INNER_HEIGHT)
+      .style("stroke-dasharray", "3")
+      .attr("stroke", "white")
+      .attr("stroke-width", 1)
+      .attr("pointer-events", "none");
+    this.yLine2 = this.svg2.append("line")
+      .attr("opacity", 0)
+      .attr("x1", 0)
+      .attr("x2", this.INNER_WIDTH)
+      .attr("stroke", "white")
+      .style("stroke-dasharray", "3")
+      .attr("stroke-width", 1)
+      .attr("pointer-events", "none");
+    this.Tooltip2 = d3.selectAll("div#scatter2")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("position","absolute")
+      .style("font", "15px sans-serif")
+      .style("background", "#181b1f")
+      .style("border", "solid")
+      .style("border-width", this.WIDTH)
+      .style("border-radius", "2px")
+      .style("padding", "5px");
   }
   private drawLineChart3(): void {
     this.x3 = d3.scaleTime().range([ 0, this.INNER_WIDTH ]);
@@ -407,11 +337,7 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("transform", "translate(0," + this.INNER_HEIGHT + ")");
     this.svg3.append('g')
       .attr('class', 'axis-grid2');
-    this.line3 = d3.line<any>()
-      .x( (d: any) => this.x3(d.time))
-      .y((d: any) =>  this.y3(d.data))
-      .curve(d3.curveLinear);
-      this.xLine3 = this.svg3.append("line")
+    this.xLine3 = this.svg3.append("line")
       .attr("opacity", 0)
       .attr("y1", 0)
       .attr("y2", this.INNER_HEIGHT)
@@ -419,9 +345,7 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("stroke", "white")
       .attr("stroke-width", 1)
       .attr("pointer-events", "none");
-   
-     //horizontale Linie
-     this.yLine3 = this.svg3.append("line")
+    this.yLine3 = this.svg3.append("line")
       .attr("opacity", 0)
       .attr("x1", 0)
       .attr("x2", this.INNER_WIDTH)
@@ -429,18 +353,17 @@ export class GraphComponent implements OnInit, OnChanges {
       .style("stroke-dasharray", "3")
       .attr("stroke-width", 1)
       .attr("pointer-events", "none");
-   
-     this.Tooltip3 = d3.selectAll("div#scatter3")
-       .append("div")
-       .style("opacity", 0)
-       .attr("class", "tooltip")
-       .style("position","absolute")
-       .style("font", "15px sans-serif")
-       .style("background", "#181b1f")
-       .style("border", "solid")
-       .style("border-width", this.WIDTH)
-       .style("border-radius", "2px")
-       .style("padding", "5px");
+    this.Tooltip3 = d3.selectAll("div#scatter3")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("position","absolute")
+      .style("font", "15px sans-serif")
+      .style("background", "#181b1f")
+      .style("border", "solid")
+      .style("border-width", this.WIDTH)
+      .style("border-radius", "2px")
+      .style("padding", "5px");
   }
   private drawLineChart4(): void {
     this.x4 = d3.scaleTime().range([ 0, this.INNER_WIDTH ]);
@@ -463,10 +386,6 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("transform", "translate(0," + this.INNER_HEIGHT + ")");
     this.svg4.append('g')
       .attr('class', 'axis-grid2');
-    this.line4 = d3.line<any>()
-      .x( (d: any) => this.x4(d.time))
-      .y((d: any) =>  this.y4(d.data))
-      .curve(d3.curveLinear);
     this.xLine4 = this.svg4.append("line")
       .attr("opacity", 0)
       .attr("y1", 0)
@@ -475,9 +394,7 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("stroke", "white")
       .attr("stroke-width", 1)
       .attr("pointer-events", "none");
-   
-     //horizontale Linie
-     this.yLine4 = this.svg4.append("line")
+    this.yLine4 = this.svg4.append("line")
       .attr("opacity", 0)
       .attr("x1", 0)
       .attr("x2", this.INNER_WIDTH)
@@ -485,18 +402,17 @@ export class GraphComponent implements OnInit, OnChanges {
       .style("stroke-dasharray", "3")
       .attr("stroke-width", 1)
       .attr("pointer-events", "none");
-   
-     this.Tooltip4 = d3.selectAll("div#scatter4")
-       .append("div")
-       .style("opacity", 0)
-       .attr("class", "tooltip")
-       .style("position","absolute")
-       .style("font", "15px sans-serif")
-       .style("background", "#181b1f")
-       .style("border", "solid")
-       .style("border-width", this.WIDTH)
-       .style("border-radius", "2px")
-       .style("padding", "5px");
+    this.Tooltip4 = d3.selectAll("div#scatter4")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("position","absolute")
+      .style("font", "15px sans-serif")
+      .style("background", "#181b1f")
+      .style("border", "solid")
+      .style("border-width", this.WIDTH)
+      .style("border-radius", "2px")
+      .style("padding", "5px");
   }
   private drawLineChart5(): void {
     this.x5 = d3.scaleTime().range([ 0, this.INNER_WIDTH ]);
@@ -519,63 +435,33 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("transform", "translate(0," + this.INNER_HEIGHT + ")");
     this.svg5.append('g')
       .attr('class', 'axis-grid2');
-    this.line5 = d3.line<any>()
-      .x( (d: any) => this.x5(d.time))
-      .y((d: any) =>  this.y5(d.data))
-      .curve(d3.curveLinear);
-  this.xLine5 = this.svg5.append("line")
-   .attr("opacity", 0)
-   .attr("y1", 0)
-   .attr("y2", this.INNER_HEIGHT)
-   .style("stroke-dasharray", "3")
-   .attr("stroke", "white")
-   .attr("stroke-width", 1)
-   .attr("pointer-events", "none");
-
-  //horizontale Linie
-  this.yLine5 = this.svg5.append("line")
-   .attr("opacity", 0)
-   .attr("x1", 0)
-   .attr("x2", this.INNER_WIDTH)
-   .attr("stroke", "white")
-   .style("stroke-dasharray", "3")
-   .attr("stroke-width", 1)
-   .attr("pointer-events", "none");
-
-  this.Tooltip5 = d3.selectAll("div#scatter5")
-    .append("div")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("position","absolute")
-    .style("font", "15px sans-serif")
-    .style("background", "#181b1f")
-    .style("border", "solid")
-    .style("border-width", this.WIDTH)
-    .style("border-radius", "2px")
-    .style("padding", "5px");
-  
-    // this.svg5.append("text")
-    //   .attr("x", 555).attr("y", 5)
-    //   .text("PM2.5").style("font-size", "8px")
-    //   .attr("alignment-baseline","middle")
-    //   .style("fill", "white")
-    //   this.svg5.append("text")
-    //   .attr("x", 555)
-    //   .attr("y", 15).text("PM10")
-    //   .style("font-size", "8px")
-    //   .attr("alignment-baseline","middle")
-    //   .style("fill", "white")
-    //   this.svg5.append("circle")
-    //   .attr("cx",550)
-    //   .attr("cy",5)
-    //   .attr("r", 3)
-    //   .style("fill", "#73bf69")
-    //   this.svg5.append("circle")
-    //   .attr("cx",550)
-    //   .attr("cy",15)
-    //   .attr("r", 3)
-    //   .style("fill", "white");
-
+    this.xLine5 = this.svg5.append("line")
+      .attr("opacity", 0)
+      .attr("y1", 0)
+      .attr("y2", this.INNER_HEIGHT)
+      .style("stroke-dasharray", "3")
+      .attr("stroke", "white")
+      .attr("stroke-width", 1)
+      .attr("pointer-events", "none");
+    this.yLine5 = this.svg5.append("line")
+      .attr("opacity", 0)
+      .attr("x1", 0)
+      .attr("x2", this.INNER_WIDTH)
+      .attr("stroke", "white")
+      .style("stroke-dasharray", "3")
+      .attr("stroke-width", 1)
+      .attr("pointer-events", "none");
+    this.Tooltip5 = d3.selectAll("div#scatter5")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("position","absolute")
+      .style("font", "15px sans-serif")
+      .style("background", "#181b1f")
+      .style("border", "solid")
+      .style("border-width", this.WIDTH)
+      .style("border-radius", "2px")
+      .style("padding", "5px");
     this.svg5.append("text")
       .text("PM2.5")
       .style("font-size", "12px")
@@ -589,7 +475,6 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("cy",this.HEIGHT - 4)
       .attr("r", 3)
       .style("fill", "#73bf69")
-
     this.svg5.append("text")
       .text("PM10")
       .style("font-size", "12px")
@@ -602,7 +487,7 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("cx",this.INNER_WIDTH*4.7/6 - 23)
       .attr("cy",this.HEIGHT - 4)
       .attr("r", 3)
-      .style("fill", "white")
+      .style("fill", "white");
   }
   private drawLineChart6(): void {
     this.x6 = d3.scaleTime().range([ 0, this.INNER_WIDTH ]);
@@ -625,10 +510,6 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("transform", "translate(0," + this.INNER_HEIGHT + ")");
     this.svg6.append('g')
       .attr('class', 'axis-grid2');
-    this.line6 = d3.line<any>()
-      .x( (d: any) => this.x6(d.time))
-      .y((d: any) =>  this.y6(d.data))
-      .curve(d3.curveLinear);
     this.xLine6 = this.svg6.append("line")
       .attr("opacity", 0)
       .attr("y1", 0)
@@ -637,9 +518,7 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("stroke", "white")
       .attr("stroke-width", 1)
       .attr("pointer-events", "none");
-   
-     //horizontale Linie
-     this.yLine6 = this.svg6.append("line")
+    this.yLine6 = this.svg6.append("line")
       .attr("opacity", 0)
       .attr("x1", 0)
       .attr("x2", this.INNER_WIDTH)
@@ -647,46 +526,43 @@ export class GraphComponent implements OnInit, OnChanges {
       .style("stroke-dasharray", "3")
       .attr("stroke-width", 1)
       .attr("pointer-events", "none");
-   
-     this.Tooltip6 = d3.selectAll("div#scatter6")
-       .append("div")
-       .style("opacity", 0)
-       .attr("class", "tooltip")
-       .style("position","absolute")
-       .style("font", "15px sans-serif")
-       .style("background", "#181b1f")
-       .style("border", "solid")
-       .style("border-width", this.WIDTH)
-       .style("border-radius", "2px")
-       .style("padding", "5px");
-
+    this.Tooltip6 = d3.selectAll("div#scatter6")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("position","absolute")
+      .style("font", "15px sans-serif")
+      .style("background", "#181b1f")
+      .style("border", "solid")
+      .style("border-width", this.WIDTH)
+      .style("border-radius", "2px")
+      .style("padding", "5px");
     this.svg6.append("text")
-       .text("PM2.5")
-       .style("font-size", "12px")
-       .attr("class", "unitt")
-       .style("fill", "white")
-       .style("text-anchor", "middle")
-       .attr("x", this.INNER_WIDTH*2.1/3)
-       .attr("y", this.HEIGHT);
-     this.svg6.append("circle")
-       .attr("cx",this.INNER_WIDTH*2.1/3 - 24)
-       .attr("cy",this.HEIGHT - 4)
-       .attr("r", 3)
-       .style("fill", "#73bf69")
- 
-     this.svg6.append("text")
-       .text("PM10")
-       .style("font-size", "12px")
-       .attr("class", "unitt")
-       .style("fill", "white")
-       .style("text-anchor", "middle")
-       .attr("x", this.INNER_WIDTH*4.7/6)
-       .attr("y", this.HEIGHT);
-     this.svg6.append("circle")
-       .attr("cx",this.INNER_WIDTH*4.7/6 - 23)
-       .attr("cy",this.HEIGHT - 4)
-       .attr("r", 3)
-       .style("fill", "white")
+      .text("PM2.5")
+      .style("font-size", "12px")
+      .attr("class", "unitt")
+      .style("fill", "white")
+      .style("text-anchor", "middle")
+      .attr("x", this.INNER_WIDTH*2.1/3)
+      .attr("y", this.HEIGHT);
+    this.svg6.append("circle")
+      .attr("cx",this.INNER_WIDTH*2.1/3 - 24)
+      .attr("cy",this.HEIGHT - 4)
+      .attr("r", 3)
+      .style("fill", "#73bf69");
+    this.svg6.append("text")
+      .text("PM10")
+      .style("font-size", "12px")
+      .attr("class", "unitt")
+      .style("fill", "white")
+      .style("text-anchor", "middle")
+      .attr("x", this.INNER_WIDTH*4.7/6)
+      .attr("y", this.HEIGHT);
+    this.svg6.append("circle")
+      .attr("cx",this.INNER_WIDTH*4.7/6 - 23)
+      .attr("cy",this.HEIGHT - 4)
+      .attr("r", 3)
+      .style("fill", "white");
   }
   private drawLineChart7(): void {
     this.x7 = d3.scaleTime().range([ 0, this.INNER_WIDTH ]);
@@ -709,11 +585,7 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("transform", "translate(0," + this.INNER_HEIGHT + ")");
     this.svg7.append('g')
       .attr('class', 'axis-grid2');
-    this.line7 = d3.line<any>()
-      .x( (d: any) => this.x7(d.time))
-      .y((d: any) =>  this.y7(d.data))
-      .curve(d3.curveLinear);
-      this.xLine7 = this.svg7.append("line")
+    this.xLine7 = this.svg7.append("line")
       .attr("opacity", 0)
       .attr("y1", 0)
       .attr("y2", this.INNER_HEIGHT)
@@ -721,9 +593,7 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("stroke", "white")
       .attr("stroke-width", 1)
       .attr("pointer-events", "none");
-   
-     //horizontale Linie
-     this.yLine7 = this.svg7.append("line")
+    this.yLine7 = this.svg7.append("line")
       .attr("opacity", 0)
       .attr("x1", 0)
       .attr("x2", this.INNER_WIDTH)
@@ -731,18 +601,17 @@ export class GraphComponent implements OnInit, OnChanges {
       .style("stroke-dasharray", "3")
       .attr("stroke-width", 1)
       .attr("pointer-events", "none");
-   
-     this.Tooltip7 = d3.selectAll("div#scatter7")
-       .append("div")
-       .style("opacity", 0)
-       .attr("class", "tooltip")
-       .style("position","absolute")
-       .style("font", "15px sans-serif")
-       .style("background", "#181b1f")
-       .style("border", "solid")
-       .style("border-width", this.WIDTH)
-       .style("border-radius", "2px")
-       .style("padding", "5px");
+    this.Tooltip7 = d3.selectAll("div#scatter7")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("position","absolute")
+      .style("font", "15px sans-serif")
+      .style("background", "#181b1f")
+      .style("border", "solid")
+      .style("border-width", this.WIDTH)
+      .style("border-radius", "2px")
+      .style("padding", "5px");
   }
 
   public update1(data: GraphDataApi, value: number) { 
@@ -758,12 +627,8 @@ export class GraphComponent implements OnInit, OnChanges {
       .transition()
       .duration(1000)
       .call(this.yAxisGrid1);
-  
-    // Create a update selection: bind to the new data
     let line1 = this.svg1.selectAll(".line")
       .data([data.dataArray], function(d: any){ return d.data });
-
-    // Updata the line
     line1.enter()
       .append("path")
       .attr("class","line")
@@ -776,10 +641,8 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("fill", "none")
       .attr("stroke", "white")
       .attr("stroke-width", 1.5);
-      let dots = this.svg1.selectAll(".dot")
-      .data(data.dataArray)
-
-      dots
+    let dots = this.svg1.selectAll(".dot").data(data.dataArray);
+    dots
       .enter().append("circle")
       .attr("class","dot")
       .merge(dots)
@@ -789,29 +652,28 @@ export class GraphComponent implements OnInit, OnChanges {
       .style("opacity", 0)
       .style("fill", "#69b3a2")
       .on("mousemove", (event:any,d:any) => {
-          const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
-          const mouse = d3.pointer(event);
-          const mousex = mouse[0];
-          const mousey = mouse[1];
-          this.xLine1.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
-          this.yLine1.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-          if (mousex > 500) {
-            this.Tooltip1
-              .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
-              .style("right", (window.innerWidth - event.pageX) + "px")  
-              .style("left", "auto")       
-              .style("top", (event.pageY - 60) + "px")
-              .style("opacity", 1)
-          } else {
-            this.Tooltip1
+        const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
+        const mouse = d3.pointer(event);
+        const mousex = mouse[0];
+        const mousey = mouse[1];
+        this.xLine1.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
+        this.yLine1.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
+        if (mousex > 500) {
+          this.Tooltip1
             .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
-            .style("left", (event.pageX + 10) + "px")       
-            .style("right", "auto")        
+            .style("right", (window.innerWidth - event.pageX) + "px")  
+            .style("left", "auto")       
             .style("top", (event.pageY - 60) + "px")
             .style("opacity", 1)
-          }
-            
-        })
+        } else {
+          this.Tooltip1
+          .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
+          .style("left", (event.pageX + 10) + "px")       
+          .style("right", "auto")        
+          .style("top", (event.pageY - 60) + "px")
+          .style("opacity", 1)
+        }
+      })
       .on("mouseout", (d: any, event: any) => {
         const mouse = d3.pointer(event);
         const mousex = mouse[0];
@@ -820,8 +682,7 @@ export class GraphComponent implements OnInit, OnChanges {
         this.yLine1.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
         this.Tooltip1.style("opacity", 0);
       });
-
-      dots.exit().remove();
+    dots.exit().remove();
   }
 
   public update2(data: GraphDataApi, value: number) {
@@ -831,18 +692,14 @@ export class GraphComponent implements OnInit, OnChanges {
       .transition()
       .duration(1000)
       .call(this.xAxisGrid2);
-    // create the Y axis
     this.y2.domain([d3.min(data.dataArray, (d: any) => d.data) as unknown as number - value, 
       d3.max(data.dataArray, (d: any) => d.data) as unknown as number + value]);
     this.svg2.selectAll(".axis-grid2")
       .transition()
       .duration(1000)
       .call(this.yAxisGrid2);
-    // Create a update selection: bind to the new data
     let line2 = this.svg2.selectAll(".line")
       .data([data.dataArray], function(d: any){ return d.data });
-  
-    // Updata the line
     line2.enter()
       .append("path")
       .attr("class","line")
@@ -855,20 +712,17 @@ export class GraphComponent implements OnInit, OnChanges {
         .attr("fill", "none")
         .attr("stroke", "white")
         .attr("stroke-width", 1.5)
-
-    let dots = this.svg2.selectAll(".dot")
-      .data(data.dataArray)
-  
+    let dots = this.svg2.selectAll(".dot").data(data.dataArray);
     dots
-    .enter().append("circle")
-    .attr("class","dot")
-    .merge(dots)
-    .attr("r", 4)
-    .attr("cx", (d: any) => this.x2(d.time))
-    .attr("cy", (d: any) => this.y2(d.data))
-    .style("opacity", 0)
-    .style("fill", "#69b3a2")
-    .on("mousemove", (event:any,d:any) => {
+      .enter().append("circle")
+      .attr("class","dot")
+      .merge(dots)
+      .attr("r", 4)
+      .attr("cx", (d: any) => this.x2(d.time))
+      .attr("cy", (d: any) => this.y2(d.data))
+      .style("opacity", 0)
+      .style("fill", "#69b3a2")
+      .on("mousemove", (event:any,d:any) => {
         const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
         const mouse = d3.pointer(event);
         const mousex = mouse[0];
@@ -890,17 +744,15 @@ export class GraphComponent implements OnInit, OnChanges {
           .style("top", (event.pageY - 60) + "px")
           .style("opacity", 1)
         }
-          
       })
-    .on("mouseout", (d: any, event: any) => {
-      const mouse = d3.pointer(event);
-      const mousex = mouse[0];
-      const mousey = mouse[1]; 
-      this.xLine2.attr("x1", mousex).attr("x2",mousex).attr("opacity", 0);
-      this.yLine2.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
-      this.Tooltip2.style("opacity", 0);
-    });
-
+      .on("mouseout", (d: any, event: any) => {
+        const mouse = d3.pointer(event);
+        const mousex = mouse[0];
+        const mousey = mouse[1]; 
+        this.xLine2.attr("x1", mousex).attr("x2",mousex).attr("opacity", 0);
+        this.yLine2.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
+        this.Tooltip2.style("opacity", 0);
+      });
     dots.exit().remove();
   }
   public update3(data: GraphDataApi, value: number) {
@@ -930,20 +782,17 @@ export class GraphComponent implements OnInit, OnChanges {
         .attr("fill", "none")
         .attr("stroke", "white")
         .attr("stroke-width", 1.5);
-
-    let dots = this.svg3.selectAll(".dot")
-    .data(data.dataArray)
-
+    let dots = this.svg3.selectAll(".dot").data(data.dataArray);
     dots
-    .enter().append("circle")
-    .attr("class","dot")
-    .merge(dots)
-    .attr("r", 4)
-    .attr("cx", (d: any) => this.x3(d.time))
-    .attr("cy", (d: any) => this.y3(d.data))
-    .style("opacity", 0)
-    .style("fill", "#69b3a2")
-    .on("mousemove", (event:any,d:any) => {
+      .enter().append("circle")
+      .attr("class","dot")
+      .merge(dots)
+      .attr("r", 4)
+      .attr("cx", (d: any) => this.x3(d.time))
+      .attr("cy", (d: any) => this.y3(d.data))
+      .style("opacity", 0)
+      .style("fill", "#69b3a2")
+      .on("mousemove", (event:any,d:any) => {
         const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
         const mouse = d3.pointer(event);
         const mousex = mouse[0];
@@ -971,15 +820,14 @@ export class GraphComponent implements OnInit, OnChanges {
             .style("opacity", 1)
           } 
       })
-    .on("mouseout", (d: any, event: any) => {
-      const mouse = d3.pointer(event);
-      const mousex = mouse[0];
-      const mousey = mouse[1]; 
-      this.xLine3.attr("x1", mousex).attr("x2",mousex).attr("opacity", 0);
-      this.yLine3.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
-      this.Tooltip3.style("opacity", 0);
-    });
-  
+      .on("mouseout", (d: any, event: any) => {
+        const mouse = d3.pointer(event);
+        const mousex = mouse[0];
+        const mousey = mouse[1]; 
+        this.xLine3.attr("x1", mousex).attr("x2",mousex).attr("opacity", 0);
+        this.yLine3.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
+        this.Tooltip3.style("opacity", 0);
+      });
     dots.exit().remove();
   }
   public update4(data: GraphDataApi, value: number) {
@@ -1009,11 +857,8 @@ export class GraphComponent implements OnInit, OnChanges {
         .attr("fill", "none")
         .attr("stroke", "white")
         .attr("stroke-width", 1.5)
-
-    let dots = this.svg4.selectAll(".dot")
-    .data(data.dataArray)
-    
-      dots
+    let dots = this.svg4.selectAll(".dot").data(data.dataArray); 
+    dots
       .enter().append("circle")
       .attr("class","dot")
       .merge(dots)
@@ -1023,29 +868,28 @@ export class GraphComponent implements OnInit, OnChanges {
       .style("opacity", 0)
       .style("fill", "#69b3a2")
       .on("mousemove", (event:any,d:any) => {
-          const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
-          const mouse = d3.pointer(event);
-          const mousex = mouse[0];
-          const mousey = mouse[1];
-          this.xLine4.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
-          this.yLine4.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-          if (mousex > 500) {
-            this.Tooltip4
-              .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
-              .style("right", (window.innerWidth - event.pageX) + "px")  
-              .style("left", "auto")       
-              .style("top", (event.pageY - 60) + "px")
-              .style("opacity", 1)
-          } else {
-            this.Tooltip4
+        const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
+        const mouse = d3.pointer(event);
+        const mousex = mouse[0];
+        const mousey = mouse[1];
+        this.xLine4.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
+        this.yLine4.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
+        if (mousex > 500) {
+          this.Tooltip4
             .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
-            .style("left", (event.pageX + 10) + "px")       
-            .style("right", "auto")        
+            .style("right", (window.innerWidth - event.pageX) + "px")  
+            .style("left", "auto")       
             .style("top", (event.pageY - 60) + "px")
             .style("opacity", 1)
-          }
-            
-        })
+        } else {
+          this.Tooltip4
+          .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
+          .style("left", (event.pageX + 10) + "px")       
+          .style("right", "auto")        
+          .style("top", (event.pageY - 60) + "px")
+          .style("opacity", 1)
+        } 
+      })
       .on("mouseout", (d: any, event: any) => {
         const mouse = d3.pointer(event);
         const mousex = mouse[0];
@@ -1054,8 +898,7 @@ export class GraphComponent implements OnInit, OnChanges {
         this.yLine4.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
         this.Tooltip4.style("opacity", 0);
       });
-  
-      dots.exit().remove();
+    dots.exit().remove();
   }
   public update5(data1: GraphDataApi, data2: GraphDataApi, value: number) {
     this.svg5.selectAll(".unit").text(`${data1.unit}`);
@@ -1098,11 +941,8 @@ export class GraphComponent implements OnInit, OnChanges {
         .attr("fill", "none")
         .attr("stroke", "white")
         .attr("stroke-width", 0.5)
-
-    let dots1 = this.svg5.selectAll(".dot1")
-        .data(data1.dataArray)
-    
-      dots1
+    let dots1 = this.svg5.selectAll(".dot1").data(data1.dataArray);
+    dots1
       .enter().append("circle")
       .attr("class","dot1")
       .merge(dots1)
@@ -1112,28 +952,28 @@ export class GraphComponent implements OnInit, OnChanges {
       .style("opacity", 0)
       .style("fill", "#69b3a2")
       .on("mousemove", (event:any,d:any) => {
-          const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
-          const mouse = d3.pointer(event);
-          const mousex = mouse[0];
-          const mousey = mouse[1];
-          this.xLine5.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
-          this.yLine5.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-          if (mousex > 500) {
+        const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
+        const mouse = d3.pointer(event);
+        const mousex = mouse[0];
+        const mousey = mouse[1];
+        this.xLine5.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
+        this.yLine5.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
+        if (mousex > 500) {
+        this.Tooltip5
+          .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ ` ${data1.unit}`)
+          .style("right", (window.innerWidth - event.pageX) + "px")  
+          .style("left", "auto")       
+          .style("top", (event.pageY - 60) + "px")
+          .style("opacity", 1)
+        } else {
           this.Tooltip5
-            .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ ` ${data1.unit}`)
-            .style("right", (window.innerWidth - event.pageX) + "px")  
-            .style("left", "auto")       
-            .style("top", (event.pageY - 60) + "px")
-            .style("opacity", 1)
-          } else {
-            this.Tooltip5
-            .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ ` ${data1.unit}`)
-            .style("left", (event.pageX + 10) + "px")       
-            .style("right", "auto")        
-            .style("top", (event.pageY - 60) + "px")
-            .style("opacity", 1)
-          }  
-        })
+          .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ ` ${data1.unit}`)
+          .style("left", (event.pageX + 10) + "px")       
+          .style("right", "auto")        
+          .style("top", (event.pageY - 60) + "px")
+          .style("opacity", 1)
+        }  
+      })
       .on("mouseout", (d: any, event: any) => {
         const mouse = d3.pointer(event);
         const mousex = mouse[0];
@@ -1142,22 +982,19 @@ export class GraphComponent implements OnInit, OnChanges {
         this.yLine5.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
         this.Tooltip5.style("opacity", 0);
       });
-  
-      dots1.exit().remove();
+    dots1.exit().remove();
 
-    let dots2 = this.svg5.selectAll(".dot2")
-      .data(data2.dataArray)
-  
+    let dots2 = this.svg5.selectAll(".dot2").data(data2.dataArray)
     dots2
-    .enter().append("circle")
-    .attr("class","dot2")
-    .merge(dots2)
-    .attr("r", 4)
-    .attr("cx", (d: any) => this.x5(d.time))
-    .attr("cy", (d: any) => this.y5(d.data))
-    .style("opacity", 0)
-    .style("fill", "#69b3a2")
-    .on("mousemove", (event:any,d:any) => {
+      .enter().append("circle")
+      .attr("class","dot2")
+      .merge(dots2)
+      .attr("r", 4)
+      .attr("cx", (d: any) => this.x5(d.time))
+      .attr("cy", (d: any) => this.y5(d.data))
+      .style("opacity", 0)
+      .style("fill", "#69b3a2")
+      .on("mousemove", (event:any,d:any) => {
         const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
         const mouse = d3.pointer(event);
         const mousex = mouse[0];
@@ -1179,17 +1016,15 @@ export class GraphComponent implements OnInit, OnChanges {
           .style("top", (event.pageY - 60) + "px")
           .style("opacity", 1)
         }
-          
       })
-    .on("mouseout", (d: any, event: any) => {
-      const mouse = d3.pointer(event);
-      const mousex = mouse[0];
-      const mousey = mouse[1]; 
-      this.xLine5.attr("x1", mousex).attr("x2",mousex).attr("opacity", 0);
-      this.yLine5.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
-      this.Tooltip5.style("opacity", 0);
-    });
-
+      .on("mouseout", (d: any, event: any) => {
+        const mouse = d3.pointer(event);
+        const mousex = mouse[0];
+        const mousey = mouse[1]; 
+        this.xLine5.attr("x1", mousex).attr("x2",mousex).attr("opacity", 0);
+        this.yLine5.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
+        this.Tooltip5.style("opacity", 0);
+      });
     dots2.exit().remove();
   }
   public update6(data1: GraphDataApi, data2: GraphDataApi, value: number) {
@@ -1209,8 +1044,6 @@ export class GraphComponent implements OnInit, OnChanges {
       .data([data1.dataArray], function(d: any){ return d.data });
     let line62 = this.svg6.selectAll(".line-1")
       .data([data2.dataArray], function(d: any){ return d.data });
-  
-    // Updata the line
     line61
       .enter()
       .append("path")
@@ -1237,11 +1070,8 @@ export class GraphComponent implements OnInit, OnChanges {
         .attr("fill", "none")
         .attr("stroke", "white")
         .attr("stroke-width", 1.5)
-
-      let dots1 = this.svg6.selectAll(".dot1")
-      .data(data1.dataArray)
-    
-      dots1
+    let dots1 = this.svg6.selectAll(".dot1").data(data1.dataArray);
+    dots1
       .enter().append("circle")
       .attr("class","dot1")
       .merge(dots1)
@@ -1251,29 +1081,28 @@ export class GraphComponent implements OnInit, OnChanges {
       .style("opacity", 0)
       .style("fill", "#69b3a2")
       .on("mousemove", (event:any,d:any) => {
-          const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
-          const mouse = d3.pointer(event);
-          const mousex = mouse[0];
-          const mousey = mouse[1];
-          this.xLine6.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
-          this.yLine6.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-          if (mousex > 500) {
-            this.Tooltip6
-              .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ ` ${data1.unit}`)
-              .style("right", (window.innerWidth - event.pageX) + "px")  
-              .style("left", "auto")       
-              .style("top", (event.pageY - 60) + "px")
-              .style("opacity", 1)
-          } else {
-            this.Tooltip6
+        const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
+        const mouse = d3.pointer(event);
+        const mousex = mouse[0];
+        const mousey = mouse[1];
+        this.xLine6.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
+        this.yLine6.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
+        if (mousex > 500) {
+          this.Tooltip6
             .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ ` ${data1.unit}`)
-            .style("left", (event.pageX + 10) + "px")       
-            .style("right", "auto")        
+            .style("right", (window.innerWidth - event.pageX) + "px")  
+            .style("left", "auto")       
             .style("top", (event.pageY - 60) + "px")
             .style("opacity", 1)
-          }
-            
-        })
+        } else {
+          this.Tooltip6
+          .html("Datum: " + formatTime(d.time)+`<br>${data1.name}: ` + Math.round(d.data*100.0)/100+ ` ${data1.unit}`)
+          .style("left", (event.pageX + 10) + "px")       
+          .style("right", "auto")        
+          .style("top", (event.pageY - 60) + "px")
+          .style("opacity", 1)
+        }
+      })
       .on("mouseout", (d: any, event: any) => {
         const mouse = d3.pointer(event);
         const mousex = mouse[0];
@@ -1282,22 +1111,19 @@ export class GraphComponent implements OnInit, OnChanges {
         this.yLine6.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
         this.Tooltip6.style("opacity", 0);
       });
-  
-      dots1.exit().remove();
+    dots1.exit().remove();
 
-    let dots2 = this.svg6.selectAll(".dot2")
-      .data(data2.dataArray)
-  
+    let dots2 = this.svg6.selectAll(".dot2").data(data2.dataArray);
     dots2
-    .enter().append("circle")
-    .attr("class","dot2")
-    .merge(dots2)
-    .attr("r", 4)
-    .attr("cx", (d: any) => this.x6(d.time))
-    .attr("cy", (d: any) => this.y6(d.data))
-    .style("opacity", 0)
-    .style("fill", "#69b3a2")
-    .on("mousemove", (event:any,d:any) => {
+      .enter().append("circle")
+      .attr("class","dot2")
+      .merge(dots2)
+      .attr("r", 4)
+      .attr("cx", (d: any) => this.x6(d.time))
+      .attr("cy", (d: any) => this.y6(d.data))
+      .style("opacity", 0)
+      .style("fill", "#69b3a2")
+      .on("mousemove", (event:any,d:any) => {
         const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
         const mouse = d3.pointer(event);
         const mousex = mouse[0];
@@ -1319,17 +1145,15 @@ export class GraphComponent implements OnInit, OnChanges {
           .style("top", (event.pageY - 60) + "px")
           .style("opacity", 1)
         }
-          
       })
-    .on("mouseout", (d: any, event: any) => {
-      const mouse = d3.pointer(event);
-      const mousex = mouse[0];
-      const mousey = mouse[1]; 
-      this.xLine6.attr("x1", mousex).attr("x2",mousex).attr("opacity", 0);
-      this.yLine6.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
-      this.Tooltip6.style("opacity", 0);
-    });
-
+      .on("mouseout", (d: any, event: any) => {
+        const mouse = d3.pointer(event);
+        const mousex = mouse[0];
+        const mousey = mouse[1]; 
+        this.xLine6.attr("x1", mousex).attr("x2",mousex).attr("opacity", 0);
+        this.yLine6.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
+        this.Tooltip6.style("opacity", 0);
+      });
     dots2.exit().remove();
   }
   public update7(data: GraphDataApi, value: number) {
@@ -1357,11 +1181,8 @@ export class GraphComponent implements OnInit, OnChanges {
       .attr("d", d3.line()
         .x((d: any) => this.x7(d.time))
         .y((d: any) => this.y7(d.data)))
-
-    let dots = this.svg7.selectAll(".dot")
-    .data(data.dataArray)
-    
-      dots
+    let dots = this.svg7.selectAll(".dot").data(data.dataArray);
+    dots
       .enter().append("circle")
       .attr("class","dot")
       .merge(dots)
@@ -1371,29 +1192,28 @@ export class GraphComponent implements OnInit, OnChanges {
       .style("opacity", 0)
       .style("fill", "#69b3a2")
       .on("mousemove", (event:any,d:any) => {
-          const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
-          const mouse = d3.pointer(event);
-          const mousex = mouse[0];
-          const mousey = mouse[1];
-          this.xLine7.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
-          this.yLine7.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
-          if (mousex > 500) {
-            this.Tooltip7
-              .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
-              .style("right", (window.innerWidth - event.pageX) + "px")  
-              .style("left", "auto")       
-              .style("top", (event.pageY - 60) + "px")
-              .style("opacity", 1)
-          } else {
-            this.Tooltip7
+        const formatTime = d3.timeFormat("%d.%m.%Y %H:%M");
+        const mouse = d3.pointer(event);
+        const mousex = mouse[0];
+        const mousey = mouse[1];
+        this.xLine7.attr("x1", mousex).attr("x2",mousex).attr("opacity", 1);
+        this.yLine7.attr("y1", mousey).attr("y2",mousey).attr("opacity", 1);
+        if (mousex > 500) {
+          this.Tooltip7
             .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
-            .style("left", (event.pageX + 10) + "px")       
-            .style("right", "auto")        
+            .style("right", (window.innerWidth - event.pageX) + "px")  
+            .style("left", "auto")       
             .style("top", (event.pageY - 60) + "px")
             .style("opacity", 1)
-          }
-            
-        })
+        } else {
+          this.Tooltip7
+          .html("Datum: " + formatTime(d.time)+`<br>${data.name}: ` + Math.round(d.data*100.0)/100+ ` ${data.unit}`)
+          .style("left", (event.pageX + 10) + "px")       
+          .style("right", "auto")        
+          .style("top", (event.pageY - 60) + "px")
+          .style("opacity", 1)
+        }
+      })
       .on("mouseout", (d: any, event: any) => {
         const mouse = d3.pointer(event);
         const mousex = mouse[0];
@@ -1402,7 +1222,6 @@ export class GraphComponent implements OnInit, OnChanges {
         this.yLine7.attr("y1", mousey).attr("y2",mousey).attr("opacity", 0);
         this.Tooltip7.style("opacity", 0);
       });
-  
-      dots.exit().remove();
+    dots.exit().remove();
   }
 }

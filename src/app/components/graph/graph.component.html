@@ -1,13 +1,4 @@
 <div class="chart-container">
-    <!-- <div class="chart"> -->
-        <!-- <div class="header">
-            Humidity
-        </div> -->
-        
-        <!-- <div class="content">
-            <div id="scatter1"></div>
-        </div>
-    </div> -->
     <div class="chart">
         <div class="header">
             Temperatur
@@ -19,7 +10,6 @@
             [max]="max"
             [min]="min"
             [step]="step"
-            [thumbLabel]="thumbLabel"
             [(ngModel)]="value1"
             (input)="onChange1($event)">
         </mat-slider>
@@ -94,12 +84,10 @@
             [max]="max"
             [min]="min"
             [step]="step"
-            [thumbLabel]="thumbLabel"
             [(ngModel)]="value5"
             (input)="onChange5($event)">
         </mat-slider>
-        </div>
-       
+    </div>
     </div>
     <div class="chart">
         <div class="header">

@@ -42,11 +42,11 @@ export class BaseLayoutComponent implements OnInit {
       'slug': 'pressure'
     }, 
     pm25amountconc : {
-      'name': 'Feinstaub PM2.5 Number Concentration',
+      'name': 'Feinstaub PM2.5 Amount Concentration',
       'slug': 'pm2_5amountconc'
     },
     pm10amountconc : {
-      'name': 'Feinstaub PM10 Number Concentration',
+      'name': 'Feinstaub PM10 Amount Concentration',
       'slug': 'pm10amountconc'
     },
     pm25conc : {

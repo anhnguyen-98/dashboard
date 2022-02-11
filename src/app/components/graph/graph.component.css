@@ -1,7 +1,6 @@
 .chart-container {
     display: flex; 
     width: 100%;
-    /* color: rgb(115, 191, 105); */
     justify-content: center;
     flex-wrap: wrap;
 }
@@ -12,20 +11,12 @@
     border-radius: 3px;
     background-color: #181b1f;
     margin: 0.3%;
-    /* flex: 47%; */
-    /* flex: 49%; */
     cursor: pointer;
 }
 mat-slider {
     margin-top: -40px;
     margin-left: 25%;
 }
-
-/* @media (max-width: 1268px) {
-    .chart {
-        min-width: 49%;
-    }
-} */
 @media (max-width: 1250px) {
     .chart {
         min-width: 99%;
@@ -36,10 +27,9 @@ mat-slider {
     display: inline-block;
     position: relative;
     width: 100%;
-    padding-bottom: 100%; /* aspect ratio */
+    padding-bottom: 100%;
     vertical-align: top;
     overflow: hidden;
-    /* padding: 10px; */
 }
 .svg-content-responsive {
     display: inline-block;
@@ -48,16 +38,9 @@ mat-slider {
     left: 0;
 }
 
-/* @media (max-width: 1599px) {
-    .chart {
-        flex: 80%;
-    }
-} */
-
 #scatter1, #scatter2, #scatter3, #scatter4 ,#scatter5 ,#scatter6, #scatter7 {
     margin: 15px;
     margin-bottom: 0;
-    /* position: relative; */
 }
 
 .header {
@@ -103,4 +86,3 @@ mat-slider {
     stroke: white;
     stroke-width: 1.4px;
 }
-  

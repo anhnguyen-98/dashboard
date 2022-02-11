@@ -60,7 +60,6 @@ mat-form-field {
 }
 @media (max-width: 1620px) {
     .content-container {
-        /* max-width: 1000px; */
         margin: 0 auto;
         padding-top: 50px;
     }
@@ -75,7 +74,6 @@ mat-form-field {
 }
 
 app-simple-card {
-    /* margin: 5px; */
     flex: 1;
     min-width: 15%;
 }

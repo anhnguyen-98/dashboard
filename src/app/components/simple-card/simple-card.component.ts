@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { AverageData } from 'src/app/models/sensor-data.models';
 import { SensorDataService } from 'src/app/services/sensor-data.service';
 
@@ -7,7 +7,7 @@ import { SensorDataService } from 'src/app/services/sensor-data.service';
   templateUrl: './simple-card.component.html',
   styleUrls: ['./simple-card.component.css']
 })
-export class SimpleCardComponent implements OnInit, OnChanges {
+export class SimpleCardComponent implements OnChanges {
 
   @Input() averageData?: AverageData;
   @Input() dataType: any;
@@ -41,8 +41,4 @@ export class SimpleCardComponent implements OnInit, OnChanges {
     this.sensorDataService.getAverageData(this.dataType.pm10conc.slug, this.selectedStation).subscribe(data => this.pm10conc = data);
     
   }
-  ngOnInit(): void {
-    
-  }
-
 }
