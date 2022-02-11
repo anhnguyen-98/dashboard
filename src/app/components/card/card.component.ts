@@ -1,13 +1,14 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges
+ } from '@angular/core';
 import { AverageData } from 'src/app/models/sensor-data.models';
 import { SensorDataService } from 'src/app/services/sensor-data.service';
 
 @Component({
-  selector: 'app-simple-card',
-  templateUrl: './simple-card.component.html',
-  styleUrls: ['./simple-card.component.css']
+  selector: 'app-card',
+  templateUrl: './card.component.html',
+  styleUrls: ['./card.component.css']
 })
-export class SimpleCardComponent implements OnChanges {
+export class CardComponent implements OnChanges {
 
   @Input() averageData?: AverageData;
   @Input() dataType: any;
