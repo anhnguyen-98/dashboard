@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AverageData, Station } from 'src/app/models/sensor-data.models';
+import { AverageData, Station } from 'src/app/models/models';
 import { SensorDataService } from 'src/app/services/sensor-data.service';
 
 @Component({
@@ -63,7 +63,6 @@ export class BaseLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.sensorDataService.getStations().subscribe(station => {
-      console.log(station);
       this.stations = station; 
       this.selectedStation = station[0].id;
     });

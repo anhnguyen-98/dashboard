@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import * as d3 from 'd3';
-import { GraphDataApi } from 'src/app/models/sensor-data.models';
+import { GraphDataApi } from 'src/app/models/models';
 import { SensorDataService } from 'src/app/services/sensor-data.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class GraphComponent implements OnInit, OnChanges {
 
   @Input() public selectedStation = 0;
   @Input() public dataType: any;
-
+ 
   temperatureG!: GraphDataApi;
   co2G!: GraphDataApi;
   humidityG!: GraphDataApi;

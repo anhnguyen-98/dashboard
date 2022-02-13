@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges
  } from '@angular/core';
-import { AverageData } from 'src/app/models/sensor-data.models';
+import { AverageData } from 'src/app/models/models';
 import { SensorDataService } from 'src/app/services/sensor-data.service';
 
 @Component({
