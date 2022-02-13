@@ -1,15 +1,12 @@
 export class AverageData {
-    time: Date;
     mean: number;
     name: string;
     unit: string;
 
-    constructor(mean: number, name = '', unit = '', 
-    time = '2021-12-11T23:00:22.000Z' as unknown as Date,) {
-        this.time = time;
-        this.mean = mean;
+    constructor(name = '', unit = '', mean: number) {
         this.name = name;
         this.unit = unit;
+        this.mean = mean;
     }
 }
 

@@ -14,15 +14,15 @@ export class CardComponent implements OnChanges {
   @Input() dataType: any;
   @Input() selectedStation = 0;
 
-  temperatureA!: AverageData;
-  co2A!: AverageData;
-  humidityA!: AverageData;
-  brightA!: AverageData;
-  pressureA!: AverageData;
-  pm25amountconc!: AverageData;
-  pm10amountconc!: AverageData;
-  pm25conc!: AverageData;
-  pm10conc!: AverageData;
+  temperatureA?: AverageData;
+  co2A?: AverageData;
+  humidityA?: AverageData;
+  brightA?: AverageData;
+  pressureA?: AverageData;
+  pm25amountconc?: AverageData;
+  pm10amountconc?: AverageData;
+  pm25conc?: AverageData;
+  pm10conc?: AverageData;
 
   constructor(private sensorDataService: SensorDataService) { }
 

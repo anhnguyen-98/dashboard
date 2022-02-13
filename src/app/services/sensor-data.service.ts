@@ -23,7 +23,7 @@ export class SensorDataService {
   getAverageData(type: string, stationID: number): Observable<AverageData> {
     return this.http.get<any>(baseUrl + type +`/${ stationID }/mean`).pipe(
       map((averageData) => { 
-        return new AverageData(averageData[0].mean, averageData[0].name, averageData[0].unit, averageData[0].time);
+        return new AverageData(averageData.name, averageData.unit, averageData.mean)
       })
     )
   }
@@ -107,25 +107,25 @@ export class SensorDataService {
     return of(stations);
   }
 
-  getData(stationID: number): Observable<AverageData[]> {
-    let averageDataArray: AverageData[] = [];
-    // for (const stationID of stationIDs) {
-      if (stationID === 0) {
-        this.dataLocationA.map((averageData) => {
-          averageDataArray.push(new AverageData(averageData.value, averageData.sensor, averageData.unit))
-        })   
-      } else if (stationID === 1 ) {
-        this.dataLocationB.map((averageData) => {
-          averageDataArray.push(new AverageData(averageData.value, averageData.sensor, averageData.unit))
-        })   
-      } else if (stationID === 2) {
-        this.dataLocationC.map((averageData) => {
-          averageDataArray.push(new AverageData(averageData.value, averageData.sensor, averageData.unit))
-        })   
-      } 
-    // }
-    return of(averageDataArray);
-  }
+  // getData(stationID: number): Observable<AverageData[]> {
+  //   let averageDataArray: AverageData[] = [];
+  //   // for (const stationID of stationIDs) {
+  //     if (stationID === 0) {
+  //       this.dataLocationA.map((averageData) => {
+  //         averageDataArray.push(new AverageData(averageData.value, averageData.sensor, averageData.unit))
+  //       })   
+  //     } else if (stationID === 1 ) {
+  //       this.dataLocationB.map((averageData) => {
+  //         averageDataArray.push(new AverageData(averageData.value, averageData.sensor, averageData.unit))
+  //       })   
+  //     } else if (stationID === 2) {
+  //       this.dataLocationC.map((averageData) => {
+  //         averageDataArray.push(new AverageData(averageData.value, averageData.sensor, averageData.unit))
+  //       })   
+  //     } 
+  //   // }
+  //   return of(averageDataArray);
+  // }
 
   getTemperature(stationID: number): Observable<GraphData[]> {
     let temperatureArray: GraphData[] = [];
