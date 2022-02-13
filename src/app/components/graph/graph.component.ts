@@ -907,7 +907,7 @@ export class GraphComponent implements OnInit, OnChanges {
       .transition()
       .duration(1000)
       .call(this.xAxisGrid5);
-    this.y5.domain([d3.min(data2.dataArray, (d: any) => d.data) as unknown as number - value, 
+    this.y5.domain([d3.min(data1.dataArray, (d: any) => d.data) as unknown as number - value, 
       d3.max(data2.dataArray, (d: any) => d.data) as unknown as number + value]);
     this.svg5.selectAll(".axis-grid2")
       .transition()
@@ -1034,7 +1034,7 @@ export class GraphComponent implements OnInit, OnChanges {
       .transition()
       .duration(1000)
       .call(this.xAxisGrid6);
-    this.y6.domain([d3.min(data2.dataArray, (d: any) => d.data) as unknown as number - value, 
+    this.y6.domain([d3.min(data1.dataArray, (d: any) => d.data) as unknown as number - value, 
       d3.max(data2.dataArray, (d: any) => d.data) as unknown as number + value]);
     this.svg6.selectAll(".axis-grid2")
       .transition()
